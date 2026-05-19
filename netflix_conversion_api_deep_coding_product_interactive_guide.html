@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netflix Ads Conversion API — Deep Coding + Product Interactive Guide</title>
+<style>
+:root {
+  --bg:#070707; --panel:#111; --panel2:#171717; --text:#f6f4ef; --muted:#b9b4ad; --red:#e50914; --red2:#ff3848; --line:#2d2d2d; --gold:#f5c542; --green:#2ee59d; --blue:#7ab7ff; --purple:#c9a0ff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at top left,#2a0508 0,#070707 32rem),linear-gradient(180deg,#070707,#0c0c0c);color:var(--text);font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;line-height:1.55}
+a{color:#fff;text-decoration:none}
+.hero{min-height:72vh;padding:48px 28px 36px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;right:-10rem;top:-10rem;width:38rem;height:38rem;border-radius:50%;background:radial-gradient(circle,#e5091455,transparent 65%);filter:blur(8px)}
+.kicker{display:inline-flex;align-items:center;gap:.5rem;color:#fff;background:#e5091422;border:1px solid #e5091466;padding:8px 12px;border-radius:999px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+h1{font-size:clamp(36px,6vw,78px);line-height:.94;letter-spacing:-.06em;margin:22px 0 16px;max-width:1050px}
+.subtitle{font-size:clamp(18px,2.2vw,26px);color:#ddd;max-width:980px}
+.heroGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:30px;max-width:1120px}
+.stat{background:linear-gradient(180deg,#1b1b1b,#0f0f0f);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 18px 40px #0008}
+.stat b{display:block;font-size:28px;color:#fff}
+.stat span{color:var(--muted);font-size:13px}
+.topbar{position:sticky;top:0;z-index:50;background:#070707e6;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;padding:10px 16px;overflow:auto}
+.topbar a,.topbar button{white-space:nowrap;border:1px solid #333;background:#151515;color:#eee;border-radius:999px;padding:9px 12px;font-size:13px;cursor:pointer}
+.topbar a:hover,.topbar button:hover{border-color:var(--red);color:#fff}
+.search{margin-left:auto;min-width:260px;background:#0d0d0d;border:1px solid #333;color:#fff;border-radius:999px;padding:10px 14px}
+main{display:grid;grid-template-columns:260px minmax(0,1fr);gap:22px;padding:22px;max-width:1500px;margin:auto}
+aside{position:sticky;top:64px;height:calc(100vh - 80px);overflow:auto;background:#0d0d0d;border:1px solid var(--line);border-radius:22px;padding:14px}
+aside a{display:block;color:#cfcaca;padding:9px 10px;border-radius:12px;font-size:14px}
+aside a:hover{background:#1a1a1a;color:#fff}
+section{margin-bottom:28px}
+.card{background:linear-gradient(180deg,var(--panel),#0c0c0c);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 18px 60px #0006;margin-bottom:16px}
+.card h2{font-size:30px;margin:0 0 12px;letter-spacing:-.03em}
+.card h3{font-size:21px;margin:6px 0 8px;letter-spacing:-.02em}
+.card h4{font-size:15px;color:#fff;margin:12px 0 6px}
+p,li{color:#ddd}
+.muted{color:var(--muted)}
+.pill{display:inline-flex;align-items:center;border:1px solid #3a3a3a;background:#1b1b1b;color:#ddd;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:700}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.callout{border-left:4px solid var(--red);background:#e5091412;padding:14px 16px;border-radius:14px;margin:14px 0}
+.good{border-color:#2ee59d55;background:#2ee59d14}
+.warn{border-color:#f5c54255;background:#f5c54214}
+.blue{border-color:#7ab7ff55;background:#7ab7ff14}
+pre{background:#050505;border:1px solid #303030;border-radius:18px;padding:16px;overflow:auto;max-height:520px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;font-size:13px;color:#f5f5f5}
+.snippetHead{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.copyBtn,.primaryBtn{border:0;background:linear-gradient(135deg,var(--red),#b20710);color:#fff;border-radius:12px;padding:10px 13px;font-weight:800;cursor:pointer;box-shadow:0 10px 25px #e5091425}
+.secondaryBtn{border:1px solid #3a3a3a;background:#171717;color:#fff;border-radius:12px;padding:10px 13px;font-weight:700;cursor:pointer}
+.copyBtn:hover,.primaryBtn:hover{filter:brightness(1.1)}
+.timeline{display:grid;gap:12px}
+.step{display:grid;grid-template-columns:94px 1fr;gap:14px;align-items:start;padding:14px;border:1px solid #2c2c2c;border-radius:18px;background:#121212}
+.step time{font-weight:900;color:#fff;background:#e5091422;border:1px solid #e5091455;border-radius:14px;padding:8px;text-align:center}
+.check{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;margin:4px 0;border-radius:12px;background:#141414;border:1px solid #242424}
+.check input{accent-color:var(--red);margin-top:5px}
+.checkGroup{margin-bottom:14px}
+.case summary{cursor:pointer;list-style:none}
+.case summary::-webkit-details-marker{display:none}
+.case summary span{display:block;font-size:20px;font-weight:900}
+.case summary small{display:block;color:#bbb;margin-top:4px}
+.caseGrid{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:14px;margin-top:14px;border-top:1px solid #2a2a2a;padding-top:12px}
+.table{width:100%;border-collapse:collapse;font-size:14px}
+.table th,.table td{border-bottom:1px solid #2a2a2a;padding:10px;text-align:left;vertical-align:top}
+.table th{color:#fff;background:#151515}
+.flashWrap{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px}
+.flashcard{min-height:360px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(145deg,#181818,#090909);border:1px solid #333;border-radius:24px;padding:24px}
+.choice{display:block;width:100%;text-align:left;margin:8px 0;padding:12px;border-radius:14px;border:1px solid #333;background:#101010;color:#eee;cursor:pointer}
+.choice:hover{border-color:#777}
+.choice.correct{border-color:#2ee59d;background:#2ee59d19}
+.choice.wrong{border-color:#ff3848;background:#ff384819}
+.progressbar{height:10px;background:#222;border-radius:999px;overflow:hidden}
+.progressbar > div{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--gold));transition:.25s}
+.quizControls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+textarea,input,select{background:#090909;border:1px solid #333;color:#fff;border-radius:14px;padding:12px;font:inherit;width:100%}
+textarea{min-height:160px;font-family:ui-monospace,monospace;font-size:13px}
+.output{background:#050505;border:1px solid #333;border-radius:18px;padding:14px;white-space:pre-wrap;color:#f3f3f3;min-height:120px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.tab{border:1px solid #333;background:#151515;color:#eee;border-radius:999px;padding:8px 12px;cursor:pointer}
+.tab.active{background:var(--red);border-color:var(--red);color:#fff}
+.hidden{display:none!important}
+kbd{background:#222;border:1px solid #444;border-bottom-width:2px;border-radius:6px;padding:2px 6px;color:#fff}
+.scoreBox{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.score{background:#141414;border:1px solid #292929;border-radius:16px;padding:14px;text-align:center}
+.score b{font-size:28px;color:#fff;display:block}
+.floating{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:8px;z-index:60}
+.floating button{border:1px solid #444;background:#111;color:#fff;border-radius:999px;padding:10px 12px;box-shadow:0 10px 30px #0009;cursor:pointer}
+.printOnly{display:none}
+@media(max-width:1050px){main{grid-template-columns:1fr} aside{display:none} .heroGrid,.grid4{grid-template-columns:repeat(2,1fr)} .grid3,.grid2,.flashWrap,.caseGrid{grid-template-columns:1fr} .search{min-width:180px;margin-left:0}}
+@media(max-width:650px){.hero{padding:28px 16px} main{padding:14px} .heroGrid,.grid4{grid-template-columns:1fr} .topbar{align-items:flex-start} .step{grid-template-columns:1fr}}
+@media print{body{background:#fff;color:#111} .topbar,aside,.floating,.copyBtn,.quizControls,.search{display:none!important} main{display:block;padding:0} .card{box-shadow:none;border:1px solid #aaa;break-inside:avoid;background:#fff;color:#111} p,li,code{color:#111} pre{background:#f7f7f7;color:#111;max-height:none} .printOnly{display:block}}
+</style>
+</head>
+<body>
+<header class="hero" id="top">
+  <span class="kicker">Netflix Ads Conversion API • Deep Interview Guide • Tomorrow Focus</span>
+  <h1>Nail the Coding + Product Thinking rounds by sounding like an integration owner.</h1>
+  <p class="subtitle">A long-form interactive prep lab for the 45-minute Coding/Integration interview and the 45-minute Product Thinking & Domain Experience interview. Built around CAPI payload debugging, privacy-safe validation, partner advocacy, tradeoffs, and actionable debug packs.</p>
+  <div class="heroGrid">
+    <div class="stat"><b>45m</b><span>Coding: clarify → inspect → script → prove → package</span></div>
+    <div class="stat"><b>45m</b><span>Product: customer → constraints → options → tradeoffs → decision</span></div>
+    <div class="stat"><b>10+</b><span>Copy-ready Python/SQL/curl/debug-pack templates</span></div>
+    <div class="stat"><b>20</b><span>Interactive flashcards + product scenario bank</span></div>
+  </div>
+</header>
+
+<nav class="topbar">
+  <a href="#survival">Survival</a><a href="#coding">Coding</a><a href="#scripts">Scripts</a><a href="#lab">Diagnostic Lab</a><a href="#product">Product</a><a href="#flashcards">Flashcards</a><a href="#debugpack">Debug Pack</a><a href="#system">System Design Bridge</a>
+  <button onclick="window.print()">Print / Save PDF</button>
+  <input id="searchBox" class="search" placeholder="Search guide: timestamp, dedupe, privacy..." oninput="filterCards(this.value)">
+</nav>
+
+<main>
+<aside>
+  <a href="#survival">0. Tomorrow survival script</a>
+  <a href="#source">1. What Netflix is evaluating</a>
+  <a href="#coding">2. Coding interview operating system</a>
+  <a href="#checks">3. What to check checklist</a>
+  <a href="#cases">4. Mock CAPI cases</a>
+  <a href="#scripts">5. Script examples</a>
+  <a href="#lab">6. Interactive diagnostic lab</a>
+  <a href="#product">7. Product thinking guide</a>
+  <a href="#questions">8. Product question bank</a>
+  <a href="#flashcards">9. Flashcards / MCQ</a>
+  <a href="#debugpack">10. Debug pack builder</a>
+  <a href="#system">11. System design bridge</a>
+  <a href="#closing">12. Final rehearsal</a>
+</aside>
+
+<div>
+<section id="survival" class="card searchable" data-search="survival say this opening coding product tomorrow">
+  <h2>0. Your tomorrow survival script</h2>
+  <div class="callout good"><b>One sentence to keep repeating:</b><br>“I’ll clarify the goal and sensitive-data boundaries first, compare successful versus failing artifacts, prove the root cause with data, quantify blast radius, and package findings into clear next actions for the partner and internal teams.”</div>
+  <div class="grid2">
+    <div class="card">
+      <span class="pill">Coding opening</span>
+      <p><b>Say this before coding:</b></p>
+      <p>“Before I jump in, I want to confirm success criteria. Are you looking for a root cause hypothesis, a script that analyzes the artifacts, an actionable debug pack, or all of those? Also, are there any fields I should treat as sensitive and avoid printing?”</p>
+      <p><b>Then say:</b> “I’ll start broad by summarizing status/error patterns, then narrow by partner, endpoint, event type, schema version, and time window.”</p>
+    </div>
+    <div class="card">
+      <span class="pill">Product opening</span>
+      <p><b>Say this before answering:</b></p>
+      <p>“I’d like to clarify the customer problem first: are we optimizing for launch speed, measurement correctness, advertiser trust, platform scalability, or partner unblock? The answer may change the tradeoff.”</p>
+      <p><b>Then say:</b> “I’ll lay out options, risks, metrics, and my recommendation.”</p>
+    </div>
+  </div>
+  <div class="timeline">
+    <div class="step"><time>0–5m</time><div><b>Frame it.</b><br>Clarify goal, input artifacts, output expected, sensitive fields, and success criteria. Do not silently start coding.</div></div>
+    <div class="step"><time>5–15m</time><div><b>Inspect patterns.</b><br>Parse files, group failures, identify dimensions: status, error_code, partner_id, endpoint, schema_version, event_name, timestamp.</div></div>
+    <div class="step"><time>15–30m</time><div><b>Write robust checks.</b><br>Required fields, type mismatches, timestamp units, dedupe, retries, PII redaction, privacy/consent, hash normalization, schema drift.</div></div>
+    <div class="step"><time>30–40m</time><div><b>Prove root cause.</b><br>Compare good vs bad, quantify blast radius, show smallest explaining difference, state confidence.</div></div>
+    <div class="step"><time>40–45m</time><div><b>Package.</b><br>“Impact is X, evidence is Y, likely root cause is Z, next action is A, escalation risk is B.”</div></div>
+  </div>
+</section>
+
+<section id="source" class="card searchable" data-search="sources netflix faq role evaluation coding product system design culture">
+  <h2>1. What Netflix is evaluating</h2>
+  <div class="grid3">
+    <div class="card"><h3>From the interview FAQ</h3><p>The coding round simulates real integration-support scenarios and evaluates debugging, effective scripts, and communicating technical issues to both technical and non-technical stakeholders. Product Thinking evaluates decision-making under ambiguity, customer advocacy, complexity management, misjudgment/course correction, and long-term impact.</p></div>
+    <div class="card"><h3>From the Conversion API role</h3><p>The role centers on end-to-end integration lifecycle, implementation, configuration, validation, launch monitoring, CAPI platforms, audience onboarding, data integrators, SQL/Python/Java, REST API debugging, cloud, and partner advocacy.</p></div>
+    <div class="card"><h3>From Netflix culture</h3><p>Translate your answers into judgment, candor, curiosity, courage, resilience, selflessness, and “great and always better.” Show you can make good calls with context, not hide behind process.</p></div>
+  </div>
+  <table class="table">
+    <tr><th>They said</th><th>What it means in your answer</th><th>Phrase to use</th></tr>
+    <tr><td>Problem framing</td><td>Clarify before solving. State assumptions.</td><td>“I want to turn this into a measurable symptom first.”</td></tr>
+    <tr><td>Scripting craft</td><td>Write code that handles malformed data, missing fields, and useful summaries.</td><td>“I’ll avoid brittle assumptions and keep parsing errors visible.”</td></tr>
+    <tr><td>Validation mindset</td><td>Prove things with counts, comparisons, and end-to-end traces.</td><td>“Acceptance alone is not enough; I’ll validate downstream quality too.”</td></tr>
+    <tr><td>Escalation hygiene</td><td>Package impact, evidence, confidence, owner, next action.</td><td>“Here’s what I’d send to Engineering/Product/partner.”</td></tr>
+    <tr><td>Sensitive data handling</td><td>Redact PII/tokens. Use request IDs and aggregate metrics.</td><td>“I’ll preserve correlation IDs, not raw identifiers.”</td></tr>
+  </table>
+</section>
+
+<section id="coding" class="card searchable" data-search="coding operating system integration debug framework code signal">
+  <h2>2. Coding / Integration interview operating system</h2>
+  <div class="callout"><b>Mindset:</b> This is not LeetCode. It is a hands-on integration investigation. The interviewer wants to watch you clarify, inspect artifacts, write pragmatic scripts, validate hypotheses, protect sensitive data, and communicate a debug pack.</div>
+  <div class="grid3">
+    <div class="card"><h3>Clarify</h3><ul><li>What is failing?</li><li>Expected vs actual?</li><li>Which partner / endpoint / time window?</li><li>What output do they want?</li><li>Any sensitive fields?</li></ul></div>
+    <div class="card"><h3>Inspect</h3><ul><li>Sample shape</li><li>Parse errors</li><li>Status distribution</li><li>Error code taxonomy</li><li>Success vs failure examples</li></ul></div>
+    <div class="card"><h3>Prove</h3><ul><li>Quantify impact</li><li>Find smallest explaining difference</li><li>Segment blast radius</li><li>State confidence + caveats</li><li>Give next action</li></ul></div>
+  </div>
+  <h3>The “CAPI 12” root-cause map</h3>
+  <div class="grid4">
+    <div class="card"><b>1. Auth</b><p>Expired token, wrong scope, wrong partner account, clock skew.</p></div>
+    <div class="card"><b>2. Routing</b><p>Wrong partner_id, advertiser_id, dataset_id, pixel_id, endpoint.</p></div>
+    <div class="card"><b>3. Schema</b><p>Missing fields, renamed nested keys, wrong version, bad enum.</p></div>
+    <div class="card"><b>4. Types</b><p>String vs number, epoch ms vs seconds, booleans as strings.</p></div>
+    <div class="card"><b>5. Identity</b><p>Hashing, normalization, click IDs, external IDs, IP+UA.</p></div>
+    <div class="card"><b>6. Consent</b><p>Denied/unknown consent, region suppression, privacy flags.</p></div>
+    <div class="card"><b>7. Dedupe</b><p>Unstable event_id, retry duplication, idempotency missing.</p></div>
+    <div class="card"><b>8. Freshness</b><p>Late events, future events, timezone, ETL lag, reporting SLA.</p></div>
+    <div class="card"><b>9. Transform</b><p>ETL drops nulls, truncates fields, changes casing, maps wrong enum.</p></div>
+    <div class="card"><b>10. Rate/Retry</b><p>429, backoff, batch size, retries storm, partial failures.</p></div>
+    <div class="card"><b>11. Downstream</b><p>Accepted but not visible, reporting job lag, activation pipeline.</p></div>
+    <div class="card"><b>12. Observability</b><p>Error too vague, missing request_id, no partner-level dashboard.</p></div>
+  </div>
+</section>
+
+<section id="checks" class="card searchable" data-search="checklist what to check coding validation privacy escalation">
+  <h2>3. Interactive checklist: what to check</h2>
+  <p class="muted">Checks save in your browser. Use this tonight as a rehearsal list. During the interview, glance at the categories and speak naturally.</p>
+  <div class="grid2"><div class="checkGroup"><h3>Coding → 0 → 5</h3><label class="check"><input type="checkbox" data-save="coding_0_5_0"> <span>Restate the task in one sentence.</span></label><label class="check"><input type="checkbox" data-save="coding_0_5_1"> <span>Ask what output they want: root cause, script, debug pack, or all three.</span></label><label class="check"><input type="checkbox" data-save="coding_0_5_2"> <span>Clarify data shape: JSON, CSV, logs, SQL tables, request/response pairs.</span></label><label class="check"><input type="checkbox" data-save="coding_0_5_3"> <span>Ask about sensitive fields and redaction expectations.</span></label><label class="check"><input type="checkbox" data-save="coding_0_5_4"> <span>Define success: isolate root cause + evidence + next action.</span></label></div><div class="checkGroup"><h3>Coding → Checks</h3><label class="check"><input type="checkbox" data-save="coding_checks_0"> <span>Parse errors / malformed JSON / missing rows</span></label><label class="check"><input type="checkbox" data-save="coding_checks_1"> <span>Status code distribution</span></label><label class="check"><input type="checkbox" data-save="coding_checks_2"> <span>Error code taxonomy</span></label><label class="check"><input type="checkbox" data-save="coding_checks_3"> <span>Endpoint/method/path</span></label><label class="check"><input type="checkbox" data-save="coding_checks_4"> <span>Partner/account/campaign segmentation</span></label><label class="check"><input type="checkbox" data-save="coding_checks_5"> <span>Event_name/event_type segmentation</span></label><label class="check"><input type="checkbox" data-save="coding_checks_6"> <span>Schema version / config version</span></label><label class="check"><input type="checkbox" data-save="coding_checks_7"> <span>Timestamp units and timezone</span></label><label class="check"><input type="checkbox" data-save="coding_checks_8"> <span>Required fields</span></label><label class="check"><input type="checkbox" data-save="coding_checks_9"> <span>Type mismatches</span></label><label class="check"><input type="checkbox" data-save="coding_checks_10"> <span>Nested field renames</span></label><label class="check"><input type="checkbox" data-save="coding_checks_11"> <span>Null/empty strings</span></label><label class="check"><input type="checkbox" data-save="coding_checks_12"> <span>Hash format and normalization</span></label><label class="check"><input type="checkbox" data-save="coding_checks_13"> <span>Plaintext PII in artifacts</span></label><label class="check"><input type="checkbox" data-save="coding_checks_14"> <span>Consent/privacy eligibility</span></label><label class="check"><input type="checkbox" data-save="coding_checks_15"> <span>Duplicate event_id</span></label><label class="check"><input type="checkbox" data-save="coding_checks_16"> <span>Retry behavior</span></label><label class="check"><input type="checkbox" data-save="coding_checks_17"> <span>Latency/freshness</span></label><label class="check"><input type="checkbox" data-save="coding_checks_18"> <span>Downstream visibility</span></label><label class="check"><input type="checkbox" data-save="coding_checks_19"> <span>Recent deployment/config changes</span></label></div><div class="checkGroup"><h3>Product</h3><label class="check"><input type="checkbox" data-save="product_0"> <span>Clarify customer and business outcome</span></label><label class="check"><input type="checkbox" data-save="product_1"> <span>Name constraints: privacy, correctness, platform, timeline, operations</span></label><label class="check"><input type="checkbox" data-save="product_2"> <span>Discuss two or three options</span></label><label class="check"><input type="checkbox" data-save="product_3"> <span>State tradeoffs clearly</span></label><label class="check"><input type="checkbox" data-save="product_4"> <span>Make a recommendation</span></label><label class="check"><input type="checkbox" data-save="product_5"> <span>Define metrics and follow-up</span></label><label class="check"><input type="checkbox" data-save="product_6"> <span>Show partner advocacy without becoming a yes-person</span></label><label class="check"><input type="checkbox" data-save="product_7"> <span>Tie answer to long-term paved path</span></label></div><div class="checkGroup"><h3>Finish</h3><label class="check"><input type="checkbox" data-save="finish_0"> <span>Impact quantified</span></label><label class="check"><input type="checkbox" data-save="finish_1"> <span>Evidence summarized</span></label><label class="check"><input type="checkbox" data-save="finish_2"> <span>Root cause confidence stated</span></label><label class="check"><input type="checkbox" data-save="finish_3"> <span>Mitigation proposed</span></label><label class="check"><input type="checkbox" data-save="finish_4"> <span>Partner action clear</span></label><label class="check"><input type="checkbox" data-save="finish_5"> <span>Internal owner clear</span></label><label class="check"><input type="checkbox" data-save="finish_6"> <span>Escalation/SEV call explained</span></label><label class="check"><input type="checkbox" data-save="finish_7"> <span>Prevention idea included</span></label></div></div>
+</section>
+
+<section id="cases" class="card searchable" data-search="mock cases capi debugging artifact scenarios">
+  <h2>4. Mock CAPI artifact cases</h2>
+  <p>Open each case and practice saying the investigation plan out loud before reading the likely answer.</p>
+  
+    <details class="case card" data-search="case 1: 400 spike after launch partner a reports a sudden 400 spike on /v1/conversions after enabling schema v3. requests, responses, and 50 ndjson logs. failing payloads use event_time=1779230400000 and user.email instead of user_data.em. schema drift plus timestamp unit mismatch. recommend partner payload fix, clearer validation message, and schema contract test.">
+      <summary><span>Case 1: 400 spike after launch</span><small>Partner A reports a sudden 400 spike on /v1/conversions after enabling schema v3.</small></summary>
+      <div class="caseGrid"><div><h4>Artifacts</h4><p>Requests, responses, and 50 NDJSON logs. Failing payloads use event_time=1779230400000 and user.email instead of user_data.em.</p></div><div><h4>What to check</h4><ul><li>Group by schema_version and error_code</li><li>Compare success vs failure keys</li><li>Check timestamp seconds vs milliseconds</li><li>Check renamed/missing user_data fields</li><li>Quantify start time and blast radius</li></ul></div><div><h4>Likely answer</h4><p>Schema drift plus timestamp unit mismatch. Recommend partner payload fix, clearer validation message, and schema contract test.</p></div></div>
+    </details>
+    <details class="case card" data-search="case 2: duplicate purchases advertiser sees duplicate purchase conversions after intermittent 5xx errors. retries show order_id is stable but event_id is regenerated on every retry. retry client regenerates event_id, defeating dedupe. recommend stable event_id derived from conversion/order id and idempotency tests.">
+      <summary><span>Case 2: Duplicate purchases</span><small>Advertiser sees duplicate Purchase conversions after intermittent 5xx errors.</small></summary>
+      <div class="caseGrid"><div><h4>Artifacts</h4><p>Retries show order_id is stable but event_id is regenerated on every retry.</p></div><div><h4>What to check</h4><ul><li>Group attempts by order_id</li><li>Check event_id stability across retries</li><li>Inspect retry status sequence</li><li>Check idempotency/dedupe behavior</li><li>Estimate duplicate count and affected revenue reporting</li></ul></div><div><h4>Likely answer</h4><p>Retry client regenerates event_id, defeating dedupe. Recommend stable event_id derived from conversion/order ID and idempotency tests.</p></div></div>
+    </details>
+    <details class="case card" data-search="case 3: accepted events but low match rate partner sees 202 accepted, but matchability/activation quality is poor. payloads have no click ids, no ip+ua, emails are uppercase unhashed in some samples, consent flags inconsistent. payload quality issue, not availability issue. recommend normalization/hashing fix, richer match keys where allowed, and quality dashboard.">
+      <summary><span>Case 3: Accepted events but low match rate</span><small>Partner sees 202 Accepted, but matchability/activation quality is poor.</small></summary>
+      <div class="caseGrid"><div><h4>Artifacts</h4><p>Payloads have no click IDs, no IP+UA, emails are uppercase unhashed in some samples, consent flags inconsistent.</p></div><div><h4>What to check</h4><ul><li>Measure identifier coverage</li><li>Validate SHA-256 hash format</li><li>Check normalization lowercase/trim</li><li>Check consent suppression</li><li>Segment by event_source/action_source</li></ul></div><div><h4>Likely answer</h4><p>Payload quality issue, not availability issue. Recommend normalization/hashing fix, richer match keys where allowed, and quality dashboard.</p></div></div>
+    </details>
+    <details class="case card" data-search="case 4: audience onboarding mismatch partner uploaded 1m audience records, but activated audience is far smaller than expected. csv/etl sample has blank external_id, inconsistent country codes, and phone hashes produced before e.164 normalization. data preparation and normalization issue. recommend preflight validator and row-count reconciliation by stage.">
+      <summary><span>Case 4: Audience onboarding mismatch</span><small>Partner uploaded 1M audience records, but activated audience is far smaller than expected.</small></summary>
+      <div class="caseGrid"><div><h4>Artifacts</h4><p>CSV/ETL sample has blank external_id, inconsistent country codes, and phone hashes produced before E.164 normalization.</p></div><div><h4>What to check</h4><ul><li>Null/empty rate by identifier</li><li>Deduplicate source rows</li><li>Normalize country/phone/email before hashing</li><li>Check consent/region filtering</li><li>Validate ETL row counts at every stage</li></ul></div><div><h4>Likely answer</h4><p>Data preparation and normalization issue. Recommend preflight validator and row-count reconciliation by stage.</p></div></div>
+    </details>
+    <details class="case card" data-search="case 5: reporting delay vs ingestion failure partner says events are missing from campaign reporting. ingestion accepted events; downstream reporting job has 6-hour freshness lag for one region. downstream freshness delay, not api rejection. recommend partner comms, backlog monitoring, and alert on freshness lag.">
+      <summary><span>Case 5: Reporting delay vs ingestion failure</span><small>Partner says events are missing from campaign reporting.</small></summary>
+      <div class="caseGrid"><div><h4>Artifacts</h4><p>Ingestion accepted events; downstream reporting job has 6-hour freshness lag for one region.</p></div><div><h4>What to check</h4><ul><li>Separate ingestion, processing, and reporting layers</li><li>Check freshness SLA by region</li><li>Correlate event IDs downstream</li><li>Look for backfill/replay status</li><li>Communicate accurate layer of failure</li></ul></div><div><h4>Likely answer</h4><p>Downstream freshness delay, not API rejection. Recommend partner comms, backlog monitoring, and alert on freshness lag.</p></div></div>
+    </details>
+    <details class="case card" data-search="case 6: privacy suppression surprise partner expects all events to count, but many are suppressed. events from certain regions include consent=&#x27;denied&#x27; but partner expected them to be measured. integration is behaving correctly per privacy policy; partner expectation/docs need alignment. recommend doc clarification and dashboard.">
+      <summary><span>Case 6: Privacy suppression surprise</span><small>Partner expects all events to count, but many are suppressed.</small></summary>
+      <div class="caseGrid"><div><h4>Artifacts</h4><p>Events from certain regions include consent=&#x27;denied&#x27; but partner expected them to be measured.</p></div><div><h4>What to check</h4><ul><li>Group suppression by consent/region/action_source</li><li>Validate policy behavior</li><li>Check partner docs and implementation</li><li>Never suggest bypassing privacy</li><li>Quantify eligible vs ineligible</li></ul></div><div><h4>Likely answer</h4><p>Integration is behaving correctly per privacy policy; partner expectation/docs need alignment. Recommend doc clarification and dashboard.</p></div></div>
+    </details>
+</section>
+
+<section id="scripts" class="card searchable" data-search="scripts python sql curl examples payload validator logs redaction debug pack">
+  <h2>5. More coding script examples: copy-ready patterns</h2>
+  <p class="muted">You probably won’t use all of these. The point is to recognize the pattern fast and adapt. The best scripts are boring, robust, and explainable.</p>
+  
+    <article class="snippet card" data-search="python: ingest json/ndjson artifacts + summarize failure patterns use first when they give sample request/response/log artifacts. shows robustness, grouping, and privacy-safe output.">
+      <div class="snippetHead"><div><span class="pill">Script 1</span><h3>Python: ingest JSON/NDJSON artifacts + summarize failure patterns</h3><p>Use first when they give sample request/response/log artifacts. Shows robustness, grouping, and privacy-safe output.</p></div><button class="copyBtn" onclick="copyCode('code1', this)">Copy</button></div>
+      <pre><code id="code1">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Goal: Load mixed JSON / NDJSON artifacts, redact sensitive fields, and summarize integration failures.
+Use in CodeSignal when you receive sample requests, responses, or logs.
+&quot;&quot;&quot;
+import json, sys, re, statistics
+from collections import Counter, defaultdict
+from pathlib import Path
+
+SENSITIVE_KEYS = {&quot;email&quot;, &quot;phone&quot;, &quot;ip&quot;, &quot;ip_address&quot;, &quot;client_ip_address&quot;, &quot;user_agent&quot;, &quot;em&quot;, &quot;ph&quot;, &quot;external_id&quot;, &quot;first_name&quot;, &quot;last_name&quot;}
+EMAIL_RE = re.compile(r&quot;[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}&quot;)
+
+def redact(obj):
+    if isinstance(obj, dict):
+        out = {}
+        for k, v in obj.items():
+            if k.lower() in SENSITIVE_KEYS:
+                out[k] = &quot;&lt;REDACTED&gt;&quot;
+            else:
+                out[k] = redact(v)
+        return out
+    if isinstance(obj, list):
+        return [redact(x) for x in obj]
+    if isinstance(obj, str):
+        return EMAIL_RE.sub(&quot;&lt;EMAIL_REDACTED&gt;&quot;, obj)
+    return obj
+
+def load_records(path):
+    text = Path(path).read_text().strip()
+    if not text:
+        return []
+    try:
+        parsed = json.loads(text)
+        return parsed if isinstance(parsed, list) else [parsed]
+    except json.JSONDecodeError:
+        rows = []
+        for i, line in enumerate(text.splitlines(), 1):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                rows.append(json.loads(line))
+            except json.JSONDecodeError as e:
+                rows.append({&quot;_parse_error&quot;: str(e), &quot;_line&quot;: i, &quot;raw&quot;: line[:300]})
+        return rows
+
+def get(d, path, default=None):
+    cur = d
+    for part in path.split(&quot;.&quot;):
+        if not isinstance(cur, dict) or part not in cur:
+            return default
+        cur = cur[part]
+    return cur
+
+def classify(record):
+    status = record.get(&quot;status&quot;) or get(record, &quot;response.status&quot;) or get(record, &quot;http.status&quot;) or &quot;unknown&quot;
+    endpoint = record.get(&quot;endpoint&quot;) or get(record, &quot;request.endpoint&quot;) or get(record, &quot;request.path&quot;) or &quot;unknown&quot;
+    error = record.get(&quot;error_code&quot;) or get(record, &quot;response.error.code&quot;) or get(record, &quot;error.code&quot;) or &quot;none&quot;
+    partner = record.get(&quot;partner_id&quot;) or get(record, &quot;request.partner_id&quot;) or get(record, &quot;payload.partner_id&quot;) or &quot;unknown&quot;
+    schema = record.get(&quot;schema_version&quot;) or get(record, &quot;payload.schema_version&quot;) or &quot;unknown&quot;
+    return str(status), str(endpoint), str(error), str(partner), str(schema)
+
+def main(paths):
+    records = []
+    for p in paths:
+        records.extend(load_records(p))
+
+    by_status = Counter()
+    by_error = Counter()
+    by_endpoint = Counter()
+    by_partner_error = Counter()
+    parse_errors = []
+
+    for r in records:
+        if &quot;_parse_error&quot; in r:
+            parse_errors.append(r)
+            continue
+        status, endpoint, error, partner, schema = classify(r)
+        by_status[status] += 1
+        by_endpoint[endpoint] += 1
+        by_error[error] += 1
+        by_partner_error[(partner, error)] += 1
+
+    print(&quot;=== SUMMARY ===&quot;)
+    print(&quot;records:&quot;, len(records), &quot;parse_errors:&quot;, len(parse_errors))
+    print(&quot;status:&quot;, by_status.most_common())
+    print(&quot;errors:&quot;, by_error.most_common(10))
+    print(&quot;endpoints:&quot;, by_endpoint.most_common(10))
+    print(&quot;partner+error:&quot;, by_partner_error.most_common(10))
+
+    print(&quot;\n=== SAFE SAMPLE RECORDS ===&quot;)
+    for r in records[:3]:
+        print(json.dumps(redact(r), indent=2)[:1500])
+
+if __name__ == &quot;__main__&quot;:
+    if len(sys.argv) &lt; 2:
+        print(&quot;Usage: python analyze_artifacts.py artifact1.json [artifact2.ndjson ...]&quot;)
+        sys.exit(1)
+    main(sys.argv[1:])</code></pre>
+    </article>
+    <article class="snippet card" data-search="python: capi payload validator with root-cause hints checks the kinds of payload issues common in conversion apis: required fields, timestamps, dedupe ids, user identifiers, privacy flags, purchase fields.">
+      <div class="snippetHead"><div><span class="pill">Script 2</span><h3>Python: CAPI payload validator with root-cause hints</h3><p>Checks the kinds of payload issues common in conversion APIs: required fields, timestamps, dedupe IDs, user identifiers, privacy flags, purchase fields.</p></div><button class="copyBtn" onclick="copyCode('code2', this)">Copy</button></div>
+      <pre><code id="code2">import json, re, time, hashlib
+from collections import Counter, defaultdict
+
+SHA256_RE = re.compile(r&quot;^[a-f0-9]{64}$&quot;)
+EMAIL_RE = re.compile(r&quot;^[^@\s]+@[^@\s]+\.[^@\s]+$&quot;)
+REQUIRED = [&quot;event_name&quot;, &quot;event_time&quot;, &quot;event_id&quot;, &quot;action_source&quot;, &quot;partner_id&quot;]
+
+PURCHASE_REQUIRED = [&quot;custom_data.value&quot;, &quot;custom_data.currency&quot;]
+
+def nested_get(d, path):
+    cur = d
+    for p in path.split(&quot;.&quot;):
+        if not isinstance(cur, dict) or p not in cur:
+            return None
+        cur = cur[p]
+    return cur
+
+def normalized_sha256(value: str) -&gt; str:
+    return hashlib.sha256(value.strip().lower().encode(&quot;utf-8&quot;)).hexdigest()
+
+def validate_event(e, now=None):
+    now = now or int(time.time())
+    problems = []
+
+    for f in REQUIRED:
+        if nested_get(e, f) in (None, &quot;&quot;, []):
+            problems.append((&quot;missing_required&quot;, f, &quot;Required for routing, dedupe, or eligibility.&quot;))
+
+    event_time = e.get(&quot;event_time&quot;)
+    if isinstance(event_time, int):
+        if event_time &gt; 10_000_000_000:
+            problems.append((&quot;timestamp_unit&quot;, &quot;event_time&quot;, &quot;Looks like milliseconds; most CAPI APIs expect epoch seconds.&quot;))
+        elif event_time &gt; now + 300:
+            problems.append((&quot;timestamp_future&quot;, &quot;event_time&quot;, &quot;Event time is in the future; check timezone/unit.&quot;))
+        elif now - event_time &gt; 7 * 24 * 3600:
+            problems.append((&quot;timestamp_old&quot;, &quot;event_time&quot;, &quot;Event may be outside attribution/acceptance window.&quot;))
+    else:
+        problems.append((&quot;timestamp_type&quot;, &quot;event_time&quot;, &quot;Expected integer epoch seconds.&quot;))
+
+    user_data = e.get(&quot;user_data&quot;) or {}
+    if not user_data:
+        problems.append((&quot;missing_user_data&quot;, &quot;user_data&quot;, &quot;Low/no matchability; check identifiers and consent.&quot;))
+    else:
+        em = user_data.get(&quot;em&quot;) or user_data.get(&quot;email&quot;)
+        if em:
+            if EMAIL_RE.match(str(em)):
+                problems.append((&quot;plaintext_pii&quot;, &quot;user_data.em/email&quot;, &quot;Do not log or send plaintext PII if API requires normalized SHA-256.&quot;))
+            elif not SHA256_RE.match(str(em).lower()):
+                problems.append((&quot;bad_hash_format&quot;, &quot;user_data.em&quot;, &quot;Expected lowercase 64-char SHA-256 hex.&quot;))
+        if not any(k in user_data for k in [&quot;em&quot;, &quot;ph&quot;, &quot;external_id&quot;, &quot;fbc&quot;, &quot;fbp&quot;, &quot;gclid&quot;, &quot;client_ip_address&quot;, &quot;user_agent&quot;, &quot;madid&quot;]):
+            problems.append((&quot;weak_match_keys&quot;, &quot;user_data&quot;, &quot;No recognizable match keys; expect poor match rate.&quot;))
+
+    if e.get(&quot;event_name&quot;) == &quot;Purchase&quot;:
+        for f in PURCHASE_REQUIRED:
+            if nested_get(e, f) in (None, &quot;&quot;):
+                problems.append((&quot;purchase_missing_field&quot;, f, &quot;Purchase event needs value/currency for measurement quality.&quot;))
+
+    if e.get(&quot;consent&quot;) == &quot;denied&quot; and e.get(&quot;processing_status&quot;) != &quot;suppressed&quot;:
+        problems.append((&quot;privacy_logic&quot;, &quot;consent&quot;, &quot;Consent denied events should be suppressed or handled per policy.&quot;))
+
+    return problems
+
+def summarize(events):
+    counts = Counter()
+    examples = defaultdict(list)
+    seen_ids = Counter(e.get(&quot;event_id&quot;) for e in events if e.get(&quot;event_id&quot;))
+    for e in events:
+        for code, field, hint in validate_event(e):
+            counts[code] += 1
+            if len(examples[code]) &lt; 3:
+                examples[code].append({&quot;event_id&quot;: e.get(&quot;event_id&quot;), &quot;field&quot;: field, &quot;hint&quot;: hint})
+    dups = {eid: c for eid, c in seen_ids.items() if c &gt; 1}
+    if dups:
+        counts[&quot;duplicate_event_id&quot;] = sum(dups.values())
+        examples[&quot;duplicate_event_id&quot;] = list(dups.items())[:5]
+    return counts, examples
+
+# Usage: events = json.load(open(&#x27;payloads.json&#x27;)); print(summarize(events))</code></pre>
+    </article>
+    <article class="snippet card" data-search="python: compare successful vs failing payloads and find likely schema drift great when you have a few good and bad sample payloads. it proves differences instead of guessing.">
+      <div class="snippetHead"><div><span class="pill">Script 3</span><h3>Python: compare successful vs failing payloads and find likely schema drift</h3><p>Great when you have a few good and bad sample payloads. It proves differences instead of guessing.</p></div><button class="copyBtn" onclick="copyCode('code3', this)">Copy</button></div>
+      <pre><code id="code3">from collections import Counter
+
+def flatten(d, prefix=&quot;&quot;):
+    out = {}
+    if isinstance(d, dict):
+        for k, v in d.items():
+            out.update(flatten(v, f&quot;{prefix}.{k}&quot; if prefix else k))
+    elif isinstance(d, list):
+        out[prefix] = &quot;&lt;list&gt;&quot;
+    else:
+        out[prefix] = type(d).__name__
+    return out
+
+def compare_groups(success_payloads, failed_payloads):
+    success_keys = Counter()
+    failed_keys = Counter()
+    success_types = Counter()
+    failed_types = Counter()
+
+    for p in success_payloads:
+        f = flatten(p)
+        success_keys.update(f.keys())
+        success_types.update(f.items())
+    for p in failed_payloads:
+        f = flatten(p)
+        failed_keys.update(f.keys())
+        failed_types.update(f.items())
+
+    n_success, n_failed = max(1, len(success_payloads)), max(1, len(failed_payloads))
+    print(&quot;Keys common in success but missing/rare in failures:&quot;)
+    for key, count in success_keys.most_common():
+        s_rate = count / n_success
+        f_rate = failed_keys[key] / n_failed
+        if s_rate &gt;= 0.8 and f_rate &lt;= 0.2:
+            print(f&quot;  {key}: success {s_rate:.0%}, failed {f_rate:.0%}&quot;)
+
+    print(&quot;\nKeys common in failures but rare in success, possible wrong field name or schema drift:&quot;)
+    for key, count in failed_keys.most_common():
+        f_rate = count / n_failed
+        s_rate = success_keys[key] / n_success
+        if f_rate &gt;= 0.8 and s_rate &lt;= 0.2:
+            print(f&quot;  {key}: failed {f_rate:.0%}, success {s_rate:.0%}&quot;)
+
+    print(&quot;\nType differences:&quot;)
+    all_keys = set(success_keys) | set(failed_keys)
+    for key in sorted(all_keys):
+        st = {t for (k, t), c in success_types.items() if k == key}
+        ft = {t for (k, t), c in failed_types.items() if k == key}
+        if st and ft and st != ft:
+            print(f&quot;  {key}: success types {st}, failed types {ft}&quot;)</code></pre>
+    </article>
+    <article class="snippet card" data-search="python: correlate request/response/log lines by request_id/event_id shows integration testing mindset: connect artifacts end-to-end rather than treating each file separately.">
+      <div class="snippetHead"><div><span class="pill">Script 4</span><h3>Python: correlate request/response/log lines by request_id/event_id</h3><p>Shows integration testing mindset: connect artifacts end-to-end rather than treating each file separately.</p></div><button class="copyBtn" onclick="copyCode('code4', this)">Copy</button></div>
+      <pre><code id="code4">import json
+from collections import defaultdict
+
+def index_by(records, keys=(&quot;request_id&quot;, &quot;trace_id&quot;, &quot;event_id&quot;)):
+    idx = defaultdict(list)
+    for r in records:
+        for k in keys:
+            v = r.get(k) or (r.get(&quot;payload&quot;) or {}).get(k)
+            if v:
+                idx[(k, v)].append(r)
+    return idx
+
+def join_artifacts(requests, responses, logs):
+    all_records = [(&quot;request&quot;, r) for r in requests] + [(&quot;response&quot;, r) for r in responses] + [(&quot;log&quot;, r) for r in logs]
+    grouped = defaultdict(list)
+    for source, record in all_records:
+        for key in [&quot;request_id&quot;, &quot;trace_id&quot;, &quot;event_id&quot;]:
+            val = record.get(key) or (record.get(&quot;payload&quot;) or {}).get(key)
+            if val:
+                grouped[(key, val)].append((source, record))
+                break
+    for correlation_key, items in grouped.items():
+        sources = {s for s, _ in items}
+        if {&quot;request&quot;, &quot;response&quot;, &quot;log&quot;}.issubset(sources):
+            print(&quot;complete trace&quot;, correlation_key, &quot;items&quot;, len(items))
+        elif &quot;response&quot; not in sources:
+            print(&quot;missing response&quot;, correlation_key)
+        elif &quot;log&quot; not in sources:
+            print(&quot;missing log&quot;, correlation_key)
+
+# Interview narration:
+# &quot;I want to stitch together request, response, and server-side logs by request_id/trace_id/event_id,
+# because root cause is much stronger when I can show the same event failing across the pipeline.&quot;</code></pre>
+    </article>
+    <article class="snippet card" data-search="python: latency, retry, and idempotency checks helpful for capi incidents where events are duplicated, delayed, or intermittently failing.">
+      <div class="snippetHead"><div><span class="pill">Script 5</span><h3>Python: latency, retry, and idempotency checks</h3><p>Helpful for CAPI incidents where events are duplicated, delayed, or intermittently failing.</p></div><button class="copyBtn" onclick="copyCode('code5', this)">Copy</button></div>
+      <pre><code id="code5">from collections import Counter, defaultdict
+import statistics
+
+def pct(values, p):
+    if not values:
+        return None
+    values = sorted(values)
+    k = int(round((len(values)-1) * p/100))
+    return values[k]
+
+def reliability_report(records):
+    latencies = [r.get(&quot;latency_ms&quot;) for r in records if isinstance(r.get(&quot;latency_ms&quot;), (int, float))]
+    statuses = Counter(r.get(&quot;status&quot;) for r in records)
+    by_event = defaultdict(list)
+    for r in records:
+        eid = r.get(&quot;event_id&quot;) or (r.get(&quot;payload&quot;) or {}).get(&quot;event_id&quot;)
+        if eid:
+            by_event[eid].append(r)
+
+    print(&quot;status counts&quot;, statuses)
+    print(&quot;latency p50/p95/p99&quot;, pct(latencies, 50), pct(latencies, 95), pct(latencies, 99))
+
+    retried = {eid: rows for eid, rows in by_event.items() if len(rows) &gt; 1}
+    print(&quot;events retried/duplicated&quot;, len(retried))
+    for eid, rows in list(retried.items())[:10]:
+        print(eid, &quot;attempts&quot;, len(rows), &quot;statuses&quot;, [r.get(&quot;status&quot;) for r in rows])
+
+    # Red flag: retry creates new event_id, preventing dedupe.
+    # Check by order_id or conversion_id if available.
+    by_order = defaultdict(set)
+    for r in records:
+        payload = r.get(&quot;payload&quot;) or r
+        order_id = (payload.get(&quot;custom_data&quot;) or {}).get(&quot;order_id&quot;)
+        event_id = payload.get(&quot;event_id&quot;)
+        if order_id and event_id:
+            by_order[order_id].add(event_id)
+    for order_id, event_ids in by_order.items():
+        if len(event_ids) &gt; 1:
+            print(&quot;possible unstable event_id for same order&quot;, order_id, event_ids)</code></pre>
+    </article>
+    <article class="snippet card" data-search="sql: core integration failure dashboard query use when they expect sql validation: status, endpoint, partner, schema, error buckets, time window.">
+      <div class="snippetHead"><div><span class="pill">Script 6</span><h3>SQL: core integration failure dashboard query</h3><p>Use when they expect SQL validation: status, endpoint, partner, schema, error buckets, time window.</p></div><button class="copyBtn" onclick="copyCode('code6', this)">Copy</button></div>
+      <pre><code id="code6">-- Goal: quantify blast radius and isolate strongest dimensions.
+SELECT
+  date_trunc(&#x27;hour&#x27;, received_at) AS hour,
+  partner_id,
+  endpoint,
+  schema_version,
+  http_status,
+  error_code,
+  COUNT(*) AS events,
+  COUNT(DISTINCT event_id) AS distinct_events,
+  ROUND(100.0 * SUM(CASE WHEN http_status BETWEEN 200 AND 299 THEN 1 ELSE 0 END) / COUNT(*), 2) AS success_rate
+FROM capi_ingestion_logs
+WHERE received_at &gt;= current_timestamp - INTERVAL &#x27;24 hours&#x27;
+GROUP BY 1,2,3,4,5,6
+ORDER BY hour DESC, events DESC;</code></pre>
+    </article>
+    <article class="snippet card" data-search="sql: compare pre/post deployment or launch window shows you think in evidence and timelines, not anecdotes.">
+      <div class="snippetHead"><div><span class="pill">Script 7</span><h3>SQL: compare pre/post deployment or launch window</h3><p>Shows you think in evidence and timelines, not anecdotes.</p></div><button class="copyBtn" onclick="copyCode('code7', this)">Copy</button></div>
+      <pre><code id="code7">WITH labeled AS (
+  SELECT
+    CASE WHEN received_at &lt; TIMESTAMP &#x27;2026-05-19 18:00:00&#x27; THEN &#x27;pre&#x27; ELSE &#x27;post&#x27; END AS window,
+    partner_id,
+    error_code,
+    http_status,
+    COUNT(*) AS events
+  FROM capi_ingestion_logs
+  WHERE received_at BETWEEN TIMESTAMP &#x27;2026-05-19 12:00:00&#x27; AND TIMESTAMP &#x27;2026-05-20 00:00:00&#x27;
+  GROUP BY 1,2,3,4
+)
+SELECT
+  partner_id,
+  error_code,
+  http_status,
+  SUM(CASE WHEN window=&#x27;pre&#x27; THEN events ELSE 0 END) AS pre_events,
+  SUM(CASE WHEN window=&#x27;post&#x27; THEN events ELSE 0 END) AS post_events,
+  SUM(CASE WHEN window=&#x27;post&#x27; THEN events ELSE 0 END) - SUM(CASE WHEN window=&#x27;pre&#x27; THEN events ELSE 0 END) AS delta
+FROM labeled
+GROUP BY 1,2,3
+ORDER BY ABS(delta) DESC;</code></pre>
+    </article>
+    <article class="snippet card" data-search="sql: payload quality / matchability checks important for conversion api: payload may be accepted but low quality for measurement/activation.">
+      <div class="snippetHead"><div><span class="pill">Script 8</span><h3>SQL: payload quality / matchability checks</h3><p>Important for Conversion API: payload may be accepted but low quality for measurement/activation.</p></div><button class="copyBtn" onclick="copyCode('code8', this)">Copy</button></div>
+      <pre><code id="code8">SELECT
+  partner_id,
+  event_name,
+  COUNT(*) AS events,
+  ROUND(100.0 * SUM(CASE WHEN user_data_em_sha256 IS NOT NULL THEN 1 ELSE 0 END) / COUNT(*), 2) AS pct_email_hash,
+  ROUND(100.0 * SUM(CASE WHEN user_data_ph_sha256 IS NOT NULL THEN 1 ELSE 0 END) / COUNT(*), 2) AS pct_phone_hash,
+  ROUND(100.0 * SUM(CASE WHEN click_id IS NOT NULL THEN 1 ELSE 0 END) / COUNT(*), 2) AS pct_click_id,
+  ROUND(100.0 * SUM(CASE WHEN client_ip IS NOT NULL AND user_agent IS NOT NULL THEN 1 ELSE 0 END) / COUNT(*), 2) AS pct_ip_ua,
+  ROUND(100.0 * SUM(CASE WHEN consent_status = &#x27;denied&#x27; THEN 1 ELSE 0 END) / COUNT(*), 2) AS pct_consent_denied
+FROM capi_events
+WHERE received_at &gt;= current_timestamp - INTERVAL &#x27;7 days&#x27;
+GROUP BY 1,2
+ORDER BY events DESC;</code></pre>
+    </article>
+    <article class="snippet card" data-search="curl: privacy-safe reproduction template shows rest api fluency while protecting sensitive data.">
+      <div class="snippetHead"><div><span class="pill">Script 9</span><h3>curl: privacy-safe reproduction template</h3><p>Shows REST API fluency while protecting sensitive data.</p></div><button class="copyBtn" onclick="copyCode('code9', this)">Copy</button></div>
+      <pre><code id="code9">curl -i -X POST &quot;https://ads-api.example.net/v1/conversions&quot; \
+  -H &quot;Authorization: Bearer &lt;REDACTED_TOKEN&gt;&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -H &quot;X-Request-Id: debug-&lt;timestamp&gt;&quot; \
+  --data &#x27;{
+    &quot;partner_id&quot;: &quot;partner_123&quot;,
+    &quot;event_name&quot;: &quot;Purchase&quot;,
+    &quot;event_time&quot;: 1779230400,
+    &quot;event_id&quot;: &quot;order_98765_purchase&quot;,
+    &quot;action_source&quot;: &quot;website&quot;,
+    &quot;user_data&quot;: {
+      &quot;em&quot;: &quot;&lt;SHA256_REDACTED&gt;&quot;,
+      &quot;client_ip_address&quot;: &quot;&lt;REDACTED&gt;&quot;,
+      &quot;user_agent&quot;: &quot;&lt;REDACTED&gt;&quot;
+    },
+    &quot;custom_data&quot;: {
+      &quot;currency&quot;: &quot;USD&quot;,
+      &quot;value&quot;: 49.99,
+      &quot;order_id&quot;: &quot;order_98765&quot;
+    },
+    &quot;test_event_code&quot;: &quot;TEST123&quot;
+  }&#x27;
+
+# Narration:
+# &quot;I would never paste real tokens or raw user identifiers. I would reproduce with a redacted or test-mode event,
+# preserve the correlation ID, and compare the response to the failing artifact.&quot;</code></pre>
+    </article>
+    <article class="snippet card" data-search="python: safe redaction utility for debug packs directly addresses sensitive data handling. this is a high-signal interview behavior.">
+      <div class="snippetHead"><div><span class="pill">Script 10</span><h3>Python: safe redaction utility for debug packs</h3><p>Directly addresses sensitive data handling. This is a high-signal interview behavior.</p></div><button class="copyBtn" onclick="copyCode('code10', this)">Copy</button></div>
+      <pre><code id="code10">import json, re
+
+SENSITIVE_KEY_PATTERNS = [
+    re.compile(p, re.I) for p in [
+        r&quot;email|^em$|phone|^ph$|ip_address|client_ip|user_agent|external_id|first_name|last_name|address|token|authorization|cookie&quot;
+    ]
+]
+EMAIL_RE = re.compile(r&quot;[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}&quot;)
+TOKEN_RE = re.compile(r&quot;(Bearer\s+)[A-Za-z0-9._\-]+&quot;, re.I)
+
+def is_sensitive_key(key):
+    return any(p.search(key) for p in SENSITIVE_KEY_PATTERNS)
+
+def redact_value(value):
+    if isinstance(value, str):
+        value = EMAIL_RE.sub(&quot;&lt;EMAIL_REDACTED&gt;&quot;, value)
+        value = TOKEN_RE.sub(r&quot;\1&lt;REDACTED_TOKEN&gt;&quot;, value)
+    return &quot;&lt;REDACTED&gt;&quot; if not isinstance(value, (dict, list)) else redact(value)
+
+def redact(obj):
+    if isinstance(obj, dict):
+        return {k: (redact_value(v) if is_sensitive_key(k) else redact(v)) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [redact(x) for x in obj]
+    if isinstance(obj, str):
+        return EMAIL_RE.sub(&quot;&lt;EMAIL_REDACTED&gt;&quot;, TOKEN_RE.sub(r&quot;\1&lt;REDACTED_TOKEN&gt;&quot;, obj))
+    return obj
+
+# print(json.dumps(redact(payload), indent=2))</code></pre>
+    </article>
+    <article class="snippet card" data-search="debug pack template: concise but actionable the interviewer explicitly cares about actionable debug packs and escalation hygiene.">
+      <div class="snippetHead"><div><span class="pill">Script 11</span><h3>Debug pack template: concise but actionable</h3><p>The interviewer explicitly cares about actionable debug packs and escalation hygiene.</p></div><button class="copyBtn" onclick="copyCode('code11', this)">Copy</button></div>
+      <pre><code id="code11"># Debug Pack: &lt;Partner / Endpoint / Incident Name&gt;
+
+## Executive summary
+- Impact: &lt;who/what/how many/% affected&gt;
+- Start time / detection: &lt;timestamp + source&gt;
+- Current status: &lt;ongoing / mitigated / resolved / monitoring&gt;
+- Confidence: &lt;low/medium/high&gt; because &lt;evidence&gt;
+
+## What I checked
+1. Request/response samples by status and error_code
+2. Successful vs failing payload diff
+3. Logs grouped by partner_id, endpoint, schema_version, region, and time window
+4. Required CAPI fields and privacy/consent handling
+5. Retry/dedupe/idempotency behavior
+6. Recent deployment/config/schema changes
+
+## Evidence
+- Failure pattern: &lt;e.g., 96% of 400s are partner A, endpoint /v1/conversions, schema v3&gt;
+- Smallest explaining difference: &lt;e.g., event_time sent in ms; success uses seconds&gt;
+- Blast radius: &lt;e.g., only Purchase events from partner A after 18:05 PDT&gt;
+- Safe samples: &lt;redacted request IDs / trace IDs only&gt;
+
+## Likely root cause
+&lt;One or two sentences, not a novel. Include confidence and caveats.&gt;
+
+## Recommended next action
+- Partner action: &lt;fix payload/config/retry behavior&gt;
+- Netflix action: &lt;improve validation message/dashboard/runbook/config guardrail&gt;
+- Mitigation: &lt;rollback, suppress, allowlist, retry, disable bad event type&gt;
+- Owner + ETA: &lt;if known&gt;
+
+## Escalation notes
+- SEV? &lt;yes/no and why&gt;
+- Customer comms: &lt;what we can safely say&gt;
+- Follow-up prevention: &lt;test, alert, docs, schema contract, monitor&gt;
+</code></pre>
+    </article>
+    <article class="snippet card" data-search="product answer framework: pacer use for product thinking: structured, tradeoff-aware, partner/customer advocacy.">
+      <div class="snippetHead"><div><span class="pill">Script 12</span><h3>Product answer framework: PACER</h3><p>Use for Product Thinking: structured, tradeoff-aware, partner/customer advocacy.</p></div><button class="copyBtn" onclick="copyCode('code12', this)">Copy</button></div>
+      <pre><code id="code12">PACER answer pattern:
+
+P — Problem
+&quot;I’d first clarify the actual customer and business problem: is this about launch speed, measurement accuracy, campaign activation, partner reliability, or advertiser trust?&quot;
+
+A — Actors and impact
+&quot;The affected actors are the external partner, advertisers using the integration, Netflix Ads Product/SWE, and support/on-call. I’d quantify impact by event volume, revenue/campaign impact, partner tier, and whether data loss is recoverable.&quot;
+
+C — Constraints
+&quot;Constraints include privacy, consent, API contract, existing platform tooling, launch timeline, operational load, and long-term paved-path strategy.&quot;
+
+E — Evaluate options
+&quot;I’d compare a strict platform-correct fix, a scoped temporary workaround, and a phased rollout. I’d discuss correctness, risk, reversibility, monitoring, and partner experience.&quot;
+
+R — Recommendation
+&quot;My recommendation would be the option that protects correctness and privacy first, keeps the partner unblocked where safe, and creates a learning loop back into product docs, validation, and observability.&quot;</code></pre>
+    </article>
+</section>
+
+<section id="lab" class="card searchable" data-search="interactive diagnostic lab payload analyzer redaction sample artifacts">
+  <h2>6. Interactive diagnostic lab</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Run sample CAPI artifact validation</h3>
+      <p>Pick a scenario and run a browser-side validator. This mirrors what your CodeSignal script should conceptually do.</p>
+      <select id="scenarioSelect"></select>
+      <div class="quizControls"><button class="primaryBtn" onclick="loadScenario()">Load scenario</button><button class="secondaryBtn" onclick="runDiagnostic()">Run diagnostic</button></div>
+      <textarea id="payloadInput"></textarea>
+      <div class="output" id="diagnosticOutput">Choose a scenario, load it, then run diagnostic.</div>
+    </div>
+    <div class="card">
+      <h3>Redaction lab</h3>
+      <p>Practice turning sensitive artifacts into safe debug-pack samples.</p>
+      <textarea id="redactInput">{
+  "Authorization": "Bearer abc.def.secret",
+  "event_id": "evt_123",
+  "email": "test.user@example.com",
+  "client_ip_address": "192.0.2.10",
+  "user_agent": "Mozilla/5.0 example",
+  "custom_data": {"value": 49.99, "currency": "USD"}
+}</textarea>
+      <div class="quizControls"><button class="primaryBtn" onclick="redactText()">Redact</button><button class="secondaryBtn" onclick="copyText('redactOutput')">Copy redacted</button></div>
+      <div class="output" id="redactOutput"></div>
+    </div>
+  </div>
+</section>
+
+<section id="product" class="card searchable" data-search="product thinking decision making tradeoffs customer advocacy ambiguity">
+  <h2>7. Product Thinking & Domain Experience: deeper guide</h2>
+  <div class="callout blue"><b>What they are really asking:</b> Can you make wise decisions when the customer, product, and technical facts are incomplete? Can you advocate for partners without damaging correctness, privacy, or long-term platform quality?</div>
+  <div class="tabs"><button class="tab active" onclick="showProductTab('pacer', this)">PACER</button><button class="tab" onclick="showProductTab('tradeoffs', this)">Tradeoff menu</button><button class="tab" onclick="showProductTab('metrics', this)">Metrics</button><button class="tab" onclick="showProductTab('stories', this)">Behavioral stories</button></div>
+  <div id="pacer" class="productTab">
+    <div class="grid2">
+      <div class="card"><h3>P — Problem</h3><p>Clarify the actual problem. “Is this about launch speed, event acceptance, match rate, reporting trust, activation, or partner experience?”</p></div>
+      <div class="card"><h3>A — Actors</h3><p>Partner, advertiser, Netflix Ads Product/SWE, support/on-call, privacy/legal, sales/account teams, end measurement users.</p></div>
+      <div class="card"><h3>C — Constraints</h3><p>Privacy/consent, platform API contract, existing tooling, timeline, operational load, data freshness, rollback, long-term paved path.</p></div>
+      <div class="card"><h3>E/R — Evaluate + Recommend</h3><p>Give 2–3 options, tradeoffs, recommendation, metrics, and follow-up. Be decisive but not rigid.</p></div>
+    </div>
+  </div>
+  <div id="tradeoffs" class="productTab hidden">
+    <table class="table"><tr><th>Tradeoff</th><th>Say this</th><th>Watch out</th></tr>
+    <tr><td>Speed vs correctness</td><td>“I can support a phased launch if validation issues are non-critical, monitored, and reversible.”</td><td>Never compromise privacy or corrupt revenue-critical measurement.</td></tr>
+    <tr><td>Partner-specific fix vs platform path</td><td>“I’d look for a generic extension or config before a one-off.”</td><td>Platform debt disguised as customer obsession.</td></tr>
+    <tr><td>Strict validation vs warnings</td><td>“Reject critical errors; warn on quality issues where downstream harm is low.”</td><td>Permissive ingestion can create silent bad data.</td></tr>
+    <tr><td>Manual support vs self-serve</td><td>“Manual support can unblock launch; repeated issues should become docs, validators, dashboards.”</td><td>Hero work that does not scale.</td></tr>
+    </table>
+  </div>
+  <div id="metrics" class="productTab hidden">
+    <div class="grid3"><div class="card"><h3>API health</h3><p>Acceptance rate, 4xx/5xx, latency, retry rate, rate-limit count.</p></div><div class="card"><h3>Data quality</h3><p>Required fields, hash validity, identifier coverage, event freshness, dedupe rate.</p></div><div class="card"><h3>Business outcome</h3><p>Downstream reporting visibility, activation readiness, partner launch blockers, ticket rate.</p></div></div>
+  </div>
+  <div id="stories" class="productTab hidden">
+    <p>Prepare 4 stories. Each should be 2 minutes max: Situation, ambiguity, action, evidence, tradeoff, result, learning.</p>
+    <ol><li>Advocated for a partner/customer despite internal resistance.</li><li>Solved a technical ambiguity with logs/data/scripts.</li><li>Misjudged a situation and course-corrected.</li><li>Improved a process/runbook/dashboard/docs so the issue would not repeat.</li></ol>
+  </div>
+</section>
+
+<section id="questions" class="card searchable" data-search="product questions situational behavioral scenario bank">
+  <h2>8. Product question simulator</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Random question</h3>
+      <select id="productFilter"><option value="all">All categories</option></select>
+      <div class="quizControls"><button class="primaryBtn" onclick="drawProductQuestion()">Draw question</button><button class="secondaryBtn" onclick="toggleProductAnswer()">Show / hide answer</button></div>
+      <div id="productQuestion" class="output">Click “Draw question.”</div>
+      <div id="productAnswer" class="output hidden"></div>
+    </div>
+    <div class="card">
+      <h3>Answer builder</h3>
+      <p>Use this to structure a 60–90 second answer.</p>
+      <textarea id="answerBuilderInput" placeholder="Paste a product prompt here, e.g. A partner wants to launch despite validation gaps..."></textarea>
+      <div class="quizControls"><button class="primaryBtn" onclick="buildAnswer()">Build answer outline</button><button class="secondaryBtn" onclick="copyText('answerBuilderOutput')">Copy outline</button></div>
+      <div class="output" id="answerBuilderOutput"></div>
+    </div>
+  </div>
+</section>
+
+<section id="flashcards" class="card searchable" data-search="flashcards multiple choice quiz coding product privacy systems">
+  <h2>9. Multiple-choice flashcards</h2>
+  <div class="flashWrap">
+    <div class="flashcard">
+      <div><span id="cardTag" class="pill">Tag</span><h3 id="cardQuestion">Question</h3><div id="choices"></div><p id="cardExplain" class="muted hidden"></p></div>
+      <div><div class="progressbar"><div id="quizProgress"></div></div><div class="quizControls"><button class="secondaryBtn" onclick="prevCard()">Prev</button><button class="primaryBtn" onclick="nextCard()">Next</button><button class="secondaryBtn" onclick="shuffleCards()">Shuffle</button><button class="secondaryBtn" onclick="resetQuiz()">Reset score</button></div></div>
+    </div>
+    <div class="card">
+      <h3>Score</h3>
+      <div class="scoreBox"><div class="score"><b id="scoreCorrect">0</b><span>Correct</span></div><div class="score"><b id="scoreWrong">0</b><span>Wrong</span></div><div class="score"><b id="scoreSeen">0</b><span>Seen</span></div><div class="score"><b id="scoreTotal">0</b><span>Total</span></div></div>
+      <p class="muted">Goal before tomorrow: 80%+ and you can explain every answer out loud.</p>
+      <div class="callout warn"><b>Do not memorize only answers.</b> Practice saying the reasoning because Netflix evaluates how you think aloud.</div>
+    </div>
+  </div>
+</section>
+
+<section id="debugpack" class="card searchable" data-search="debug pack builder escalation hygiene communication partner engineering product">
+  <h2>10. Debug pack builder</h2>
+  <p>Fill this once tonight using any mock case. It trains your final 5-minute interview wrap-up.</p>
+  <div class="grid2">
+    <div class="card">
+      <input id="impact" placeholder="Impact: e.g. Partner A Purchase events 400ing since 12:05 PDT">
+      <input id="evidence" placeholder="Evidence: e.g. 96% failures schema_v3; good payload uses event_time seconds">
+      <input id="rootcause" placeholder="Likely root cause: e.g. timestamp ms + schema field rename">
+      <input id="action" placeholder="Next action: e.g. partner fix payload; Netflix improve validation message">
+      <input id="confidence" placeholder="Confidence/caveat: e.g. High for 400s, still need downstream replay check">
+      <div class="quizControls"><button class="primaryBtn" onclick="makeDebugPack()">Generate</button><button class="secondaryBtn" onclick="copyText('debugOutput')">Copy debug pack</button></div>
+    </div>
+    <div class="output" id="debugOutput">Generated debug pack will appear here.</div>
+  </div>
+</section>
+
+<section id="system" class="card searchable" data-search="system design bridge observability reliability runbooks escalations tradeoffs existing platform components">
+  <h2>11. System Design bridge — even for tomorrow</h2>
+  <p>Your first two interviews are Coding and Product, but your answers should still hint at system design maturity.</p>
+  <div class="grid3">
+    <div class="card"><h3>Use existing components</h3><p>Say: “I’d first understand the existing ingestion, validation, routing, monitoring, and partner tooling before proposing anything new.”</p></div>
+    <div class="card"><h3>Correctness + privacy</h3><p>Say: “I’d design validation as severity-based: reject privacy/contract violations, warn for quality issues, and monitor all.”</p></div>
+    <div class="card"><h3>Operability</h3><p>Say: “A launch is not done until dashboards, alerts, runbook, rollback, and partner comms are ready.”</p></div>
+  </div>
+  <div class="callout">For May 21 system design: draw <b>partner/data integrator → API gateway/auth → ingestion → validation → normalization → privacy/consent filter → dedupe → routing → downstream measurement/activation → dashboards/runbooks/escalation</b>.</div>
+</section>
+
+<section id="closing" class="card searchable" data-search="final rehearsal closing lines">
+  <h2>12. Final rehearsal: lines to memorize</h2>
+  <div class="grid2">
+    <div class="card"><h3>If you are stuck</h3><p>“I’m going to simplify the problem: first prove whether failures cluster by partner, schema, or event type. Even if I don’t fully solve it, I can produce a useful debug pack with evidence and next steps.”</p></div>
+    <div class="card"><h3>If asked for tradeoff</h3><p>“The tradeoff is partner speed versus platform correctness. I’m comfortable with scoped, monitored, reversible exceptions for non-critical issues, but I would not bypass privacy or create silent bad measurement data.”</p></div>
+    <div class="card"><h3>If asked why Netflix</h3><p>“This role is a good match because it sits at the intersection of deep technical debugging, partner advocacy, product judgment, and operational ownership. I like ambiguous integration problems where I can turn messy artifacts into a clear path forward.”</p></div>
+    <div class="card"><h3>If asked what happens next</h3><p>“I’d turn this into: partner-facing fix guidance, internal evidence for Product/SWE, a monitoring query/dashboard, and a runbook or validation improvement so the next integration is easier.”</p></div>
+  </div>
+</section>
+
+</div>
+</main>
+
+<div class="floating"><button onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Top</button><button onclick="expandAll()">Expand cases</button><button onclick="collapseAll()">Collapse</button></div>
+
+<script>
+const flashcards = [{"tag": "Coding", "q": "In the first 3 minutes of the coding round, what should you do before writing code?", "choices": ["Start parsing the first file immediately", "Clarify goal, expected output, data shape, sensitive fields, and success criteria", "Ask what algorithm they expect", "Write a perfect class hierarchy"], "answer": 1, "explain": "Netflix explicitly values problem framing, clarifying questions, and thinking aloud. The coding exercise is an integration debugging scenario, not just an algorithm race."}, {"tag": "Coding", "q": "A partner reports 400 errors after launch. What is the strongest first grouping?", "choices": ["By developer who wrote the code", "By partner_id, endpoint, status, error_code, schema_version, and time window", "By alphabetical event names only", "By file size"], "answer": 1, "explain": "This isolates blast radius and patterns while showing operational judgment."}, {"tag": "Coding", "q": "Which CAPI timestamp issue is common?", "choices": ["Seconds vs milliseconds", "UTF-8 vs ASCII only", "Boolean vs integer always", "Currency symbol vs ISO date"], "answer": 0, "explain": "Epoch milliseconds sent to APIs expecting seconds can produce future timestamps or invalid windows."}, {"tag": "Coding", "q": "Payload accepted but match rate is low. What should you inspect?", "choices": ["Only HTTP status", "Identifier normalization/hashing, click IDs, IP+UA, consent, event_source_url, action_source", "Only the value field", "Only server CPU"], "answer": 1, "explain": "CAPI quality depends on match keys, privacy eligibility, and event context, not just acceptance."}, {"tag": "Coding", "q": "What makes a debug pack actionable?", "choices": ["Lots of raw logs", "Impact, evidence, smallest explaining difference, blast radius, likely root cause, next owner/action", "Only a screenshot", "A vague statement that the partner is wrong"], "answer": 1, "explain": "Actionable debug packs move the issue forward across partner, product, and engineering."}, {"tag": "Privacy", "q": "What should you never paste into a shared debug pack?", "choices": ["Redacted request IDs", "Aggregated counts", "Raw emails, phone numbers, tokens, IPs, cookies, user agents", "Error-code distribution"], "answer": 2, "explain": "Sensitive data handling is explicitly evaluated. Redact or aggregate."}, {"tag": "Coding", "q": "Duplicate conversions are reported. What do you check first?", "choices": ["Whether event_id is stable across retries and whether idempotency is enforced", "Whether the UI button is red", "Whether currency is USD", "Whether logs are sorted"], "answer": 0, "explain": "CAPI deduplication depends on stable IDs and retry behavior."}, {"tag": "Coding", "q": "A spike begins exactly after schema_version=v3 rollout. Strongest hypothesis?", "choices": ["Network weather", "Schema drift or validation mismatch", "Partner got bored", "All events are fake"], "answer": 1, "explain": "Temporal correlation plus schema dimension creates a strong hypothesis to validate."}, {"tag": "Product", "q": "A major partner wants a one-off workaround that bypasses validation. Best response?", "choices": ["Say yes to make them happy", "Say no without discussion", "Clarify impact, risk, reversibility, monitoring, and whether a scoped temporary exception is safe", "Escalate without understanding"], "answer": 2, "explain": "Great product judgment balances partner advocacy with correctness, privacy, and long-term platform health."}, {"tag": "Product", "q": "What is the best Product Thinking answer shape?", "choices": ["Jump straight to one solution", "Clarify customer, goal, constraints, options, tradeoffs, recommendation, follow-up metrics", "Talk only about implementation", "Avoid tradeoffs"], "answer": 1, "explain": "They want wise decisions under ambiguity and clear tradeoff communication."}, {"tag": "Product", "q": "What does partner advocacy mean in this role?", "choices": ["Always doing whatever partner asks", "Representing real partner constraints internally while protecting platform correctness and long-term vision", "Letting Product handle everything", "Only writing docs"], "answer": 1, "explain": "The role is technical liaison and voice of the customer, not a yes-person."}, {"tag": "Product", "q": "A launch is tomorrow but validation is incomplete. What should you decide?", "choices": ["Launch blindly", "Cancel automatically", "Define minimum launch criteria, risk, rollback, monitoring, partner comms, and phased launch option", "Ignore validation"], "answer": 2, "explain": "This demonstrates decision making, ambiguity handling, and operational thinking."}, {"tag": "Coding", "q": "What is the smallest explaining difference?", "choices": ["The shortest log line", "The minimal observed difference between success and failure that accounts for the behavior", "A random guess", "The biggest file"], "answer": 1, "explain": "This is how you narrow root cause rigorously."}, {"tag": "Coding", "q": "If sample artifacts include requests and responses, what should you preserve?", "choices": ["Correlation IDs such as request_id/trace_id/event_id", "Raw tokens", "All personal info", "Only response body"], "answer": 0, "explain": "Correlation IDs allow end-to-end validation while remaining privacy-safe."}, {"tag": "Product", "q": "Which metric best captures launch quality?", "choices": ["Number of meetings", "Event acceptance rate, error rate, matchability, latency, data freshness, dedupe rate, partner-reported issues", "Only lines of code", "Only partner sentiment"], "answer": 1, "explain": "CAPI integrations need correctness and reliability metrics."}, {"tag": "Coding", "q": "What should you do when stuck in CodeSignal?", "choices": ["Go silent", "Narrate hypothesis, write a small validation, simplify scope, and produce partial findings", "Delete everything", "Ask for the answer"], "answer": 1, "explain": "Thinking aloud and partial but correct progress matter."}, {"tag": "Product", "q": "What is a strong answer to 'tell me about a time you misjudged a situation'?", "choices": ["Pretend it never happened", "Own the miss, explain signal missed, correction, customer impact, and process improvement", "Blame others", "Say it was impossible"], "answer": 1, "explain": "The FAQ says they may ask about misjudgment and course correction."}, {"tag": "Systems", "q": "For system design, what should you avoid?", "choices": ["Using existing platform components", "Inventing a brand-new universe of services before understanding provided components", "Discussing observability", "Asking requirements"], "answer": 1, "explain": "The prompt says use existing platform components, clarify first, and focus on realistic integration architecture."}, {"tag": "Privacy", "q": "If consent is denied, what should your validation consider?", "choices": ["Whether event is suppressed or processed according to policy", "Whether value is high enough", "Whether partner is famous", "Whether timestamp is pretty"], "answer": 0, "explain": "Privacy-safe validation is central."}, {"tag": "Coding", "q": "What is a good final coding-round summary?", "choices": ["I\u2019m done", "I found X impacting Y after Z; evidence is A/B; next action is C; risk is D", "The code works maybe", "No idea"], "answer": 1, "explain": "Close with impact, evidence, confidence, action, and escalation."}];
+const productQuestions = [{"category": "Ambiguity", "q": "A partner says their CAPI integration is 'not working,' but gives no details. Walk me through your approach.", "signals": ["Clarify expected vs actual behavior", "Ask for sample request/response IDs, time window, partner/account IDs, event types", "Define success criteria: acceptance, match rate, reporting, attribution, activation", "Protect sensitive data", "Create investigation plan and comms cadence"], "answer": "I\u2019d start by converting 'not working' into measurable symptoms: are events rejected, accepted but not visible, delayed, low match rate, duplicate, or misattributed? I\u2019d ask for a time window, endpoint, event types, request IDs, response bodies with sensitive data redacted, and expected outcome. Then I\u2019d compare their samples against known-good events, group logs by status/error/schema/partner, and communicate a scoped hypothesis plus next data needed."}, {"category": "Tradeoffs", "q": "A strategic partner needs to launch tomorrow, but 8% of Purchase events fail validation. Product wants to ship. What do you do?", "signals": ["Quantify impact and event type severity", "Decide minimum launch criteria", "Consider phased launch/test mode", "Partner comms and rollback plan", "Long-term fix and monitoring"], "answer": "I would not treat 8% as just a number; I\u2019d ask which events fail, whether failures affect revenue-critical Purchase measurement, whether data can be replayed, and whether the issue is privacy/correctness related. If the 8% is isolated to non-critical test traffic, a monitored phased launch may be acceptable. If it is Purchase data with privacy or dedupe issues, I\u2019d recommend delaying or launching in limited mode with explicit owners, alarms, and a rollback plan."}, {"category": "Customer Advocacy", "q": "A partner asks Netflix to add a custom field only they need. How do you advocate without creating platform debt?", "signals": ["Understand real need", "Look for existing extensibility/config", "Evaluate broader demand", "Temporary workaround vs paved path", "Represent partner needs internally"], "answer": "I\u2019d first understand the use case behind the custom field. If it maps to an existing standard field or configuration, I\u2019d steer them to the paved path. If not, I\u2019d assess whether multiple partners need it, whether it affects privacy or reporting correctness, and whether a generic extension point is better than a one-off. I\u2019d advocate for the partner by bringing evidence to Product/SWE, not by bypassing platform direction."}, {"category": "Decision Quality", "q": "You misjudged a launch risk and a partner incident followed. How would you explain that story?", "signals": ["Own mistake", "Explain missed signal", "Describe correction under pressure", "Show prevention mechanism", "Tie to candor/resilience"], "answer": "I\u2019d be candid: I underestimated the risk because I relied on acceptance rate and didn\u2019t validate downstream visibility/matchability enough. Once the issue surfaced, I quantified blast radius, coordinated the partner and engineering response, and created a pre-launch checklist covering end-to-end metrics, not just API acceptance. The learning was to define launch quality as successful business outcome, not just green HTTP statuses."}, {"category": "Prioritization", "q": "Three partners are blocked: one high revenue launch, one privacy validation bug, and one low-volume reporting mismatch. How do you prioritize?", "signals": ["Safety/privacy first", "Business impact", "Blast radius", "Recoverability", "Transparent comms"], "answer": "I\u2019d first separate severity from volume. Anything privacy or compliance-related gets immediate attention because correctness and trust are non-negotiable. Then I\u2019d evaluate business impact, launch deadline, blast radius, and recoverability. I\u2019d communicate priorities transparently: privacy validation first, high-revenue launch second unless blocked by the same issue, and low-volume reporting mismatch with a clear ETA or workaround."}, {"category": "Metrics", "q": "What metrics would tell you a CAPI integration is healthy?", "signals": ["Acceptance/error rate", "Latency/data freshness", "Dedupe rate", "Matchability/identifier quality", "Downstream visibility", "Partner tickets"], "answer": "I\u2019d use a layered health model: ingestion success rate and error codes; latency and data freshness; payload quality such as required fields and identifier coverage; dedupe/retry health; downstream availability in reporting or activation; and partner-facing signals like ticket volume or launch blockers."}, {"category": "Privacy", "q": "A partner wants to send more identifiers to improve match rate. How do you respond?", "signals": ["Clarify allowed identifiers and consent", "Privacy/legal policy boundaries", "Minimum necessary data", "Hashing/normalization", "Measure incremental benefit safely"], "answer": "I\u2019d clarify which identifiers are permitted by the API contract and policy, whether consent supports their use, and whether they should be normalized or hashed. I\u2019d avoid collecting more data just because it helps match rate. If allowed, I\u2019d test incremental benefit using aggregate metrics and ensure documentation and validation prevent raw sensitive data exposure."}, {"category": "Operational", "q": "A CAPI outage starts during a partner launch. How do you run the incident?", "signals": ["Declare severity if needed", "Single comms owner", "Timeline and blast radius", "Mitigation/rollback", "Partner updates", "Postmortem prevention"], "answer": "I\u2019d establish severity and an incident channel, assign roles, quantify blast radius, and separate mitigation from root cause. I\u2019d keep partner-facing updates factual and time-boxed, avoid exposing sensitive internals, and coordinate with Product/SWE for rollback or config mitigation. After resolution I\u2019d capture timeline, root cause, detection gap, and runbook/dashboard improvements."}, {"category": "Product Strategy", "q": "How would you decide between strict validation and permissive ingestion with warnings?", "signals": ["Correctness vs adoption", "Recoverability", "Downstream harm", "Privacy hard stops", "Phased validation"], "answer": "I\u2019d make privacy and contractual correctness hard stops. For non-critical quality issues, permissive ingestion with warnings can improve adoption if downstream harm is low and partners have clear feedback. For issues that corrupt attribution, duplicate conversions, or violate consent, strict rejection is safer. A mature design may use severity-based validation: reject critical, warn for quality, monitor all."}, {"category": "Collaboration", "q": "Engineering says the partner is wrong; the partner says the API is unclear. What do you do?", "signals": ["Translate both sides", "Use evidence", "Find documentation ambiguity", "Avoid blame", "Drive closure"], "answer": "I\u2019d translate the disagreement into evidence: what did the docs say, what did the partner send, what did the API return, and what did a known-good payload do? If the partner violated a clear contract, I\u2019d help them fix it. If docs or errors were ambiguous, I\u2019d advocate for clearer validation and documentation. The goal is closure and prevention, not blame."}, {"category": "Product", "q": "What would you improve in a CAPI developer experience?", "signals": ["Self-serve validation", "Test events", "Clear error messages", "Dashboards", "SDK/docs/runbooks", "Privacy guardrails"], "answer": "I\u2019d improve the fastest feedback loops: a payload validator, test-event mode, request correlation IDs, clear actionable error messages, partner dashboards for acceptance and quality, and docs that map common partner systems to expected fields. I\u2019d also add privacy guardrails so partners catch raw PII or consent issues before launch."}, {"category": "AI Tools", "q": "How could AI help this support/integration role without creating risk?", "signals": ["Summarize logs/docs", "Generate draft runbooks", "Suggest queries", "Redact data", "Human review", "No sensitive leakage"], "answer": "AI could accelerate support by summarizing redacted logs, suggesting SQL/debug queries, drafting runbooks, and detecting recurring issue patterns. I\u2019d keep it bounded: no raw sensitive data, human review before partner communication, and clear source links so generated guidance is verifiable."}, {"category": "Systems Thinking", "q": "You can only add one new observability improvement before launch. What do you pick?", "signals": ["Partner-level health dashboard or structured error taxonomy", "Reasoning", "Actionability", "Alerting"], "answer": "I\u2019d likely add partner-level structured error observability: acceptance rate, top error codes, endpoint, schema version, event type, and correlation IDs over time. This gives immediate launch safety, helps partners self-diagnose, and supports incident response. Dashboards are more valuable when errors are normalized and actionable."}, {"category": "Requirements", "q": "How do you define MVP for a new partner CAPI integration?", "signals": ["Events in scope", "Validation criteria", "Privacy/consent", "Data quality threshold", "Monitoring/runbook", "Launch/rollback"], "answer": "MVP is not just sending events. I\u2019d define required event types, required fields, privacy/consent handling, test-event validation, acceptable error rate, latency/freshness expectations, dedupe behavior, downstream visibility, monitoring, support runbook, and rollback criteria."}, {"category": "Behavioral", "q": "Tell me about advocating for a customer when the internal roadmap did not prioritize them.", "signals": ["Evidence-based advocacy", "Business and technical impact", "Tradeoffs", "Outcome", "No entitlement"], "answer": "I\u2019d frame a story where I gathered evidence showing the partner issue was a pattern, not just a one-off. I\u2019d quantify impact, propose a low-risk interim mitigation, and advocate for a productized fix with broader platform value. I\u2019d show that advocacy means bringing useful context and options, not pressuring teams blindly."}];
+const sampleScenarios = [
+  {name:'400 spike: timestamp ms + schema drift', events:[
+    {partner_id:'partner_A',event_name:'Purchase',event_time:1779230400000,event_id:'evt_1',action_source:'website',user:{email:'USER@EXAMPLE.COM'},custom_data:{value:49.99,currency:'USD'},status:400,error_code:'INVALID_EVENT_TIME'},
+    {partner_id:'partner_A',event_name:'Purchase',event_time:1779230460000,event_id:'evt_2',action_source:'website',user:{email:'other@example.com'},custom_data:{value:99.99,currency:'USD'},status:400,error_code:'MISSING_USER_DATA'},
+    {partner_id:'partner_A',event_name:'Lead',event_time:1779230500,event_id:'evt_3',action_source:'website',user_data:{em:'7b34211350ff567970974e1e2b98d319a601969e74fd1a957bc889b8332d00eb'},status:202,error_code:null}
+  ]},
+  {name:'Duplicate purchases from retry', events:[
+    {partner_id:'partner_B',event_name:'Purchase',event_time:1779230400,event_id:'retry_1',action_source:'website',user_data:{em:'7b34211350ff567970974e1e2b98d319a601969e74fd1a957bc889b8332d00eb'},custom_data:{order_id:'ord_77',value:25,currency:'USD'},status:500,error_code:'UPSTREAM_TIMEOUT'},
+    {partner_id:'partner_B',event_name:'Purchase',event_time:1779230410,event_id:'retry_2',action_source:'website',user_data:{em:'7b34211350ff567970974e1e2b98d319a601969e74fd1a957bc889b8332d00eb'},custom_data:{order_id:'ord_77',value:25,currency:'USD'},status:202,error_code:null},
+    {partner_id:'partner_B',event_name:'Purchase',event_time:1779230420,event_id:'retry_3',action_source:'website',user_data:{em:'7b34211350ff567970974e1e2b98d319a601969e74fd1a957bc889b8332d00eb'},custom_data:{order_id:'ord_77',value:25,currency:'USD'},status:202,error_code:null}
+  ]},
+  {name:'Low matchability despite accepted events', events:[
+    {partner_id:'partner_C',event_name:'Purchase',event_time:1779230400,event_id:'evt_10',action_source:'website',user_data:{},custom_data:{value:49.99,currency:'USD'},status:202,error_code:null,consent:'granted'},
+    {partner_id:'partner_C',event_name:'Lead',event_time:1779230500,event_id:'evt_11',action_source:'website',user_data:{em:'plain@example.com'},status:202,error_code:null,consent:'granted'},
+    {partner_id:'partner_C',event_name:'Purchase',event_time:1779230600,event_id:'evt_12',action_source:'website',user_data:{em:'BADHASH'},custom_data:{value:12,currency:'USD'},status:202,error_code:null,consent:'denied',processing_status:'processed'}
+  ]}
+];
+let cardIndex = 0, correct=0, wrong=0, seen = new Set(), answered=false;
+
+function init(){
+  document.getElementById('scoreTotal').textContent = flashcards.length;
+  const sel = document.getElementById('scenarioSelect'); sampleScenarios.forEach((s,i)=>{let o=document.createElement('option');o.value=i;o.textContent=s.name;sel.appendChild(o);});
+  const cats=[...new Set(productQuestions.map(q=>q.category))]; const pf=document.getElementById('productFilter'); cats.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;pf.appendChild(o);});
+  document.querySelectorAll('input[type="checkbox"][data-save]').forEach(cb=>{const k='nfx_'+cb.dataset.save; cb.checked=localStorage.getItem(k)==='1'; cb.addEventListener('change',()=>localStorage.setItem(k,cb.checked?'1':'0'));});
+  renderCard(); loadScenario();
+}
+function copyCode(id, btn){const text=document.getElementById(id).innerText;navigator.clipboard.writeText(text);const old=btn.textContent;btn.textContent='Copied';setTimeout(()=>btn.textContent=old,900);}
+function copyText(id){navigator.clipboard.writeText(document.getElementById(id).innerText || document.getElementById(id).value || '');}
+function filterCards(q){q=q.toLowerCase().trim(); document.querySelectorAll('.searchable,.snippet,.case').forEach(el=>{const s=(el.dataset.search||el.innerText).toLowerCase(); el.style.display=!q||s.includes(q)?'':'none';});}
+function expandAll(){document.querySelectorAll('details.case').forEach(d=>d.open=true)}
+function collapseAll(){document.querySelectorAll('details.case').forEach(d=>d.open=false)}
+function showProductTab(id, btn){document.querySelectorAll('.productTab').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');}
+function renderCard(){answered=false; const c=flashcards[cardIndex]; document.getElementById('cardTag').textContent=c.tag+' • '+(cardIndex+1)+'/'+flashcards.length; document.getElementById('cardQuestion').textContent=c.q; document.getElementById('cardExplain').classList.add('hidden'); document.getElementById('cardExplain').textContent=c.explain; const choices=document.getElementById('choices'); choices.innerHTML=''; c.choices.forEach((ch,i)=>{const b=document.createElement('button');b.className='choice';b.textContent=ch;b.onclick=()=>answerCard(i);choices.appendChild(b);}); document.getElementById('quizProgress').style.width=((cardIndex+1)/flashcards.length*100)+'%'; updateScore();}
+function answerCard(i){if(answered)return; answered=true; const c=flashcards[cardIndex]; seen.add(cardIndex); document.querySelectorAll('.choice').forEach((b,idx)=>{if(idx===c.answer)b.classList.add('correct'); if(idx===i&&idx!==c.answer)b.classList.add('wrong');}); if(i===c.answer)correct++; else wrong++; document.getElementById('cardExplain').classList.remove('hidden'); updateScore();}
+function updateScore(){document.getElementById('scoreCorrect').textContent=correct;document.getElementById('scoreWrong').textContent=wrong;document.getElementById('scoreSeen').textContent=seen.size;document.getElementById('scoreTotal').textContent=flashcards.length;}
+function nextCard(){cardIndex=(cardIndex+1)%flashcards.length; renderCard();}
+function prevCard(){cardIndex=(cardIndex-1+flashcards.length)%flashcards.length; renderCard();}
+function shuffleCards(){for(let i=flashcards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[flashcards[i],flashcards[j]]=[flashcards[j],flashcards[i]];} cardIndex=0;renderCard();}
+function resetQuiz(){correct=0;wrong=0;seen.clear();renderCard();}
+function loadScenario(){const s=sampleScenarios[document.getElementById('scenarioSelect').value];document.getElementById('payloadInput').value=JSON.stringify(s.events,null,2);document.getElementById('diagnosticOutput').textContent='Loaded '+s.name+'. Run diagnostic.';}
+function isHash(v){return /^[a-f0-9]{64}$/.test(String(v||'').toLowerCase());}
+function runDiagnostic(){let events;try{events=JSON.parse(document.getElementById('payloadInput').value)}catch(e){document.getElementById('diagnosticOutput').textContent='Parse error: '+e.message;return} if(!Array.isArray(events))events=[events];let counts={}, notes=[];function add(k,msg){counts[k]=(counts[k]||0)+1;if(notes.length<20)notes.push('• '+k+': '+msg)} const ids={}, orders={}; events.forEach((e,idx)=>{['event_name','event_time','event_id','action_source','partner_id'].forEach(f=>{if(e[f]===undefined||e[f]===''||e[f]===null)add('missing_'+f,'row '+idx+' missing '+f)}); if(typeof e.event_time!=='number')add('bad_timestamp_type','row '+idx+' event_time is not numeric'); else if(e.event_time>10000000000)add('timestamp_ms','row '+idx+' event_time looks like milliseconds'); const ud=e.user_data||{}; if(!e.user_data)add('missing_user_data_object','row '+idx+' has no user_data object'); const em=ud.em||ud.email||(e.user||{}).email; if(em){if(String(em).includes('@'))add('plaintext_email','row '+idx+' contains plaintext email'); else if(!isHash(em))add('bad_email_hash','row '+idx+' email hash is not 64-char lowercase SHA-256')} else add('weak_identity','row '+idx+' has no email hash'); if(e.event_name==='Purchase'){if(!e.custom_data||e.custom_data.value===undefined)add('missing_purchase_value','row '+idx+' missing value'); if(!e.custom_data||!e.custom_data.currency)add('missing_purchase_currency','row '+idx+' missing currency'); const oid=e.custom_data&&e.custom_data.order_id;if(oid){orders[oid]=orders[oid]||new Set();orders[oid].add(e.event_id)}} if(e.consent==='denied'&&e.processing_status!=='suppressed')add('privacy_logic','row '+idx+' consent denied but not suppressed'); if(e.event_id)ids[e.event_id]=(ids[e.event_id]||0)+1; }); Object.entries(ids).forEach(([id,c])=>{if(c>1)add('duplicate_event_id',id+' appears '+c+' times')}); Object.entries(orders).forEach(([oid,set])=>{if(set.size>1)add('unstable_event_id_for_order',oid+' has '+set.size+' event_ids')}); let out='Summary counts:\n'+Object.entries(counts).map(([k,v])=>'  '+k+': '+v).join('\n')+'\n\nFindings:\n'+(notes.join('\n')||'No major issues detected.')+'\n\nInterview wrap-up:\nImpact: '+events.length+' sample events inspected. Evidence: issues grouped above. Next: compare against known-good payloads and quantify blast radius in logs by partner/schema/event/time.'; document.getElementById('diagnosticOutput').textContent=out;}
+function redactText(){let t=document.getElementById('redactInput').value; t=t.replace(/Bearer\s+[A-Za-z0-9._-]+/gi,'Bearer <REDACTED_TOKEN>'); t=t.replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g,'<EMAIL_REDACTED>'); t=t.replace(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g,'<IP_REDACTED>'); t=t.replace(/("(?:email|phone|client_ip_address|user_agent|external_id|em|ph|Authorization)"\s*:\s*")[^"]*(")/gi,'$1<REDACTED>$2'); document.getElementById('redactOutput').textContent=t;}
+let currentPQ=null; function drawProductQuestion(){const f=document.getElementById('productFilter').value; const pool=f==='all'?productQuestions:productQuestions.filter(q=>q.category===f); currentPQ=pool[Math.floor(Math.random()*pool.length)]; document.getElementById('productQuestion').textContent=currentPQ.category+'\n\n'+currentPQ.q+'\n\nStrong signals:\n- '+currentPQ.signals.join('\n- '); document.getElementById('productAnswer').classList.add('hidden'); document.getElementById('productAnswer').textContent='Sample answer:\n\n'+currentPQ.answer;}
+function toggleProductAnswer(){document.getElementById('productAnswer').classList.toggle('hidden');}
+function buildAnswer(){const prompt=document.getElementById('answerBuilderInput').value||'<prompt>'; const out=`Prompt: ${prompt}\n\n1) Clarify problem\n- I’d first clarify the expected business outcome and current symptom. Is this about launch speed, measurement correctness, activation, reporting, or partner trust?\n\n2) Actors / impact\n- Partner/advertiser impact:\n- Netflix Product/SWE impact:\n- Operational/on-call impact:\n- Privacy/correctness impact:\n\n3) Constraints\n- Privacy/consent:\n- API contract / existing tooling:\n- Timeline and reversibility:\n- Data recoverability:\n\n4) Options\n- Option A: strict/paved-path fix. Pros/cons.\n- Option B: scoped temporary mitigation. Pros/cons.\n- Option C: phased launch or delay. Pros/cons.\n\n5) Recommendation\n- I recommend ___ because it protects ___ while unblocking ___.\n\n6) Metrics/follow-up\n- Acceptance rate, error rate, matchability, dedupe, freshness, downstream visibility, partner ticket volume.\n- Convert learning into docs/validator/dashboard/runbook.`; document.getElementById('answerBuilderOutput').textContent=out;}
+function makeDebugPack(){const g=id=>document.getElementById(id).value||'<fill in>'; const out=`# Debug Pack\n\n## Executive summary\nImpact: ${g('impact')}\nCurrent confidence: ${g('confidence')}\n\n## Evidence\n${g('evidence')}\n\n## Likely root cause\n${g('rootcause')}\n\n## Recommended next action\n${g('action')}\n\n## Escalation hygiene\n- Partner-facing message: factual, scoped, no sensitive data.\n- Internal owner: Product/SWE/support depending on fix.\n- Follow-up prevention: validation, docs, alerting, runbook, contract test.\n`; document.getElementById('debugOutput').textContent=out;}
+window.addEventListener('load', init);
+</script>
+</body>
+</html>

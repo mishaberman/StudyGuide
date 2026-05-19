@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Netflix Ads Conversion API — Tomorrow Cheat Sheet</title>
+<style>
+  :root{
+    --bg:#0b0b0f;--panel:#15151d;--panel2:#1e1e29;--text:#f7f7fb;--muted:#a8a8b8;--red:#e50914;--red2:#ff4450;--gold:#ffd166;--green:#65d6a6;--blue:#7aa7ff;--purple:#b99cff;--line:#303040;--white:#fff;--shadow:0 14px 35px rgba(0,0,0,.35);--radius:18px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;background:radial-gradient(circle at 15% 0%,rgba(229,9,20,.22),transparent 36%),radial-gradient(circle at 80% 10%,rgba(122,167,255,.13),transparent 32%),var(--bg);color:var(--text);line-height:1.45}
+  a{color:inherit}
+  .wrap{max-width:1380px;margin:0 auto;padding:18px}
+  .hero{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,rgba(11,11,15,.98),rgba(11,11,15,.88));backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .hero-inner{max-width:1380px;margin:0 auto;padding:12px 18px;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
+  h1{font-size:clamp(20px,2.4vw,34px);margin:0;letter-spacing:-.04em}.sub{color:var(--muted);font-size:13px;margin-top:4px}.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.05);font-size:12px;color:#dedee8;margin:4px 5px 0 0}.badge.red{border-color:rgba(229,9,20,.55);background:rgba(229,9,20,.12);color:#fff}.badge.green{border-color:rgba(101,214,166,.45);background:rgba(101,214,166,.1)}
+  .actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:9px 12px;font-weight:700;font-size:12px;cursor:pointer;transition:.15s}.btn:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.3)}.btn.red{background:var(--red);border-color:var(--red);color:#fff}.btn.gold{background:rgba(255,209,102,.12);border-color:rgba(255,209,102,.35);color:var(--gold)}
+  .topgrid{display:grid;grid-template-columns:360px 1fr;gap:16px;margin-top:18px}.side{position:sticky;top:90px;align-self:start;display:flex;flex-direction:column;gap:12px}.card{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.card.pad{padding:16px}.card h2,.card h3{margin:0 0 10px}.card h2{font-size:19px;letter-spacing:-.02em}.card h3{font-size:15px;color:#fff}.mini{font-size:12px;color:var(--muted)}
+  .nav{display:grid;grid-template-columns:1fr 1fr;gap:8px}.nav a,.nav button{display:block;text-decoration:none;padding:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:12px;color:#fff;font-weight:800;font-size:12px;text-align:left;cursor:pointer}.nav a:hover,.nav button:hover{border-color:var(--red)}
+  .search{width:100%;padding:12px 14px;border-radius:13px;border:1px solid var(--line);background:#0f0f16;color:#fff;font-weight:650;outline:none}.search:focus{border-color:var(--red)}
+  .meter{height:10px;background:#272735;border-radius:99px;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--gold),var(--green));transition:.2s}.timeline{display:grid;gap:7px}.timebox{display:grid;grid-template-columns:65px 1fr;gap:8px;padding:9px;border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:12px}.timebox b{color:#fff}.timebox span{font-size:12px;color:var(--muted)}
+  .main{display:flex;flex-direction:column;gap:16px}.section{scroll-margin-top:100px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:10px}.section h2{font-size:25px;letter-spacing:-.035em;margin:0}.section p.lead{margin:3px 0 0;color:var(--muted);font-size:13px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.dense{display:grid;gap:8px}.pill{display:inline-block;padding:4px 7px;border-radius:8px;background:#282837;border:1px solid var(--line);font-size:11px;color:#d8d8e4;font-weight:700}.pill.red{background:rgba(229,9,20,.15);border-color:rgba(229,9,20,.5)}.pill.green{background:rgba(101,214,166,.12);border-color:rgba(101,214,166,.35)}.pill.blue{background:rgba(122,167,255,.12);border-color:rgba(122,167,255,.35)}.pill.gold{background:rgba(255,209,102,.12);border-color:rgba(255,209,102,.35);color:var(--gold)}
+  .quote{border-left:4px solid var(--red);padding:10px 12px;background:rgba(229,9,20,.08);border-radius:0 12px 12px 0;font-weight:700}.quote.small{font-size:13px}.say{font-size:13px;background:#0f0f16;border:1px solid var(--line);border-radius:13px;padding:11px;position:relative}.say .copy{position:absolute;top:8px;right:8px}.copy{border:0;border-radius:8px;background:rgba(255,255,255,.09);color:#fff;font-size:10px;padding:5px 7px;cursor:pointer}.copy:hover{background:var(--red)}
+  details{border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:14px;overflow:hidden}summary{cursor:pointer;padding:12px 14px;font-weight:850;list-style:none;display:flex;justify-content:space-between;gap:10px}summary::-webkit-details-marker{display:none}summary:after{content:'+';color:var(--red);font-size:18px}details[open] summary:after{content:'–'}.detail-body{padding:0 14px 14px;color:#e5e5ef;font-size:13px}ul{margin:8px 0 0 18px;padding:0}li{margin:4px 0}.matrix{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border-radius:14px;border:1px solid var(--line);font-size:12px}.matrix th,.matrix td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}.matrix th{background:#242431;color:#fff;text-align:left}.matrix tr:last-child td{border-bottom:0}.matrix td:first-child{font-weight:800;color:#fff}.matrix .hot{color:var(--gold);font-weight:850}
+  pre{margin:0;background:#08080d;color:#e7e7f2;border:1px solid #2a2a38;border-radius:14px;padding:13px;overflow:auto;font-size:11.5px;line-height:1.45;max-height:300px}.codewrap{position:relative}.codewrap .copy{position:absolute;right:8px;top:8px}.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#11111a;border:1px solid #333342;border-radius:6px;padding:2px 5px;font-size:11px;color:#fff}
+  .check{display:flex;gap:8px;align-items:flex-start;padding:8px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid transparent}.check:hover{border-color:var(--line)}.check input{margin-top:3px;accent-color:var(--red)}.check label{font-size:12.5px}.tinygrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.flash{min-height:160px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer}.flash .q{font-size:18px;font-weight:900;letter-spacing:-.02em}.flash .a{display:none;color:#e9e9f2}.flash.flipped .q{display:none}.flash.flipped .a{display:block}.choices{display:grid;gap:8px;margin-top:10px}.choice{padding:10px;border:1px solid var(--line);background:#15151d;color:#fff;border-radius:12px;cursor:pointer;text-align:left}.choice.correct{border-color:var(--green);background:rgba(101,214,166,.15)}.choice.wrong{border-color:var(--red);background:rgba(229,9,20,.15)}.questionbox{background:#111119;border:1px solid var(--line);border-radius:15px;padding:14px}.questionbox h3{font-size:17px}.answerline{display:grid;grid-template-columns:115px 1fr;gap:8px;border-top:1px solid var(--line);padding-top:8px;margin-top:8px;font-size:12.5px}.answerline b{color:var(--gold)}.toast{position:fixed;right:18px;bottom:18px;background:#161620;color:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:14px;padding:10px 12px;font-weight:800;font-size:12px;opacity:0;transform:translateY(10px);transition:.2s;z-index:100}.toast.show{opacity:1;transform:translateY(0)}
+  .side-mode .wrap,.side-mode .hero-inner{max-width:760px}.side-mode .topgrid{grid-template-columns:1fr}.side-mode .side{position:static}.side-mode .grid2,.side-mode .grid3,.side-mode .grid4{grid-template-columns:1fr}.side-mode pre{max-height:220px}.side-mode .hero-inner{grid-template-columns:1fr}.side-mode .actions{justify-content:flex-start}.side-mode .section h2{font-size:21px}
+  .hide{display:none!important}.filtered{display:none!important}.mark{outline:2px solid var(--red)}
+  @media(max-width:1050px){.topgrid{grid-template-columns:1fr}.side{position:static}.grid2,.grid3,.grid4{grid-template-columns:1fr 1fr}.hero-inner{grid-template-columns:1fr}.actions{justify-content:flex-start}}
+  @media(max-width:720px){.wrap{padding:12px}.grid2,.grid3,.grid4,.tinygrid{grid-template-columns:1fr}.timebox{grid-template-columns:1fr}.nav{grid-template-columns:1fr}.hero{position:relative}.side{top:0}.section h2{font-size:21px}}
+  @media print{body{background:#fff;color:#000}.hero,.side .card:first-child,.btn,.copy,.search{display:none!important}.topgrid{display:block}.side{position:static}.card{break-inside:avoid;background:#fff;color:#000;border:1px solid #ccc;box-shadow:none}.main{display:block}.section{page-break-after:auto;margin-bottom:16px}.grid2,.grid3,.grid4{display:block}.quote,.say,pre{background:#fff;color:#000;border:1px solid #ccc}.pill{color:#000}.matrix th{background:#eee;color:#000}.matrix td,.matrix th{border-color:#ccc}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <h1>Netflix Ads Conversion API — Tomorrow Cheat Sheet</h1>
+      <div class="sub">Designed for fast review during prep: Coding / Integration + Product Thinking & Domain Experience. Compact, interactive, and role-specific.</div>
+      <span class="badge red">CAPI integration support</span><span class="badge">REST APIs</span><span class="badge">SQL + Python</span><span class="badge">Privacy-safe debugging</span><span class="badge green">Partner advocacy</span>
+    </div>
+    <div class="actions">
+      <button class="btn red" onclick="toggleSideMode()">Side-window mode</button>
+      <button class="btn" onclick="window.print()">Print / PDF</button>
+      <button class="btn gold" onclick="randomPanic()">Panic line</button>
+      <button class="btn" onclick="resetChecks()">Reset checks</button>
+    </div>
+  </div>
+</div>
+<div class="wrap topgrid">
+  <aside class="side">
+    <div class="card pad">
+      <input class="search" id="search" placeholder="Search: schema, product, redaction, 429..." oninput="searchCards(this.value)" />
+      <div style="height:10px"></div>
+      <div class="nav">
+        <a href="#must">Must-say lines</a><a href="#coding">Coding cockpit</a><a href="#scripts">Script toolbox</a><a href="#debugpack">Debug pack</a><a href="#product">Product cockpit</a><a href="#questions">Question bank</a><a href="#flashcards">Flashcards</a><a href="#final">Final 10 min</a>
+      </div>
+    </div>
+    <div class="card pad">
+      <h3>Progress</h3>
+      <div class="meter"><div class="bar" id="bar"></div></div>
+      <div class="mini" id="progressText" style="margin-top:8px">0% checked</div>
+    </div>
+    <div class="card pad">
+      <h3>Tomorrow timing</h3>
+      <div class="timeline">
+        <div class="timebox"><b>12:00</b><span><b>Coding / Integration</b><br/>Lead with clarification → inspect artifacts → script evidence → debug pack.</span></div>
+        <div class="timebox"><b>1:00</b><span><b>Product Thinking</b><br/>Decision making under ambiguity → customer advocacy → tradeoffs → long-term impact.</span></div>
+      </div>
+    </div>
+    <div class="card pad">
+      <h3>One mental model</h3>
+      <div class="quote small">Clarify → Compare → Prove → Package → Escalate.</div>
+      <p class="mini">This is the same muscle for both interviews. Coding proves it with artifacts; Product proves it with decisions.</p>
+    </div>
+  </aside>
+
+  <main class="main">
+    <section class="section" id="must" data-search="must say lines clarify compare prove package escalate">
+      <div class="section-head"><div><h2>0. Say these early, often, and calmly</h2><p class="lead">These lines signal the exact behaviors Netflix said they evaluate: clarification, thinking aloud, tradeoffs, privacy safety, and communication.</p></div></div>
+      <div class="grid2">
+        <div class="card pad">
+          <h3>Opening line for Coding</h3>
+          <div class="say">Before I jump into code, I want to clarify success criteria: what artifact types I have, what “bad” looks like, what output you want, and whether any fields are sensitive so I avoid exposing or logging raw user data.<button class="copy" onclick="copyParent(this)">copy</button></div>
+        </div>
+        <div class="card pad">
+          <h3>Opening line for Product</h3>
+          <div class="say">I’ll start by clarifying the customer problem, the business goal, the privacy and correctness constraints, and the tradeoff space. Then I’ll make a recommendation with risks, metrics, and a rollback/operational plan.<button class="copy" onclick="copyParent(this)">copy</button></div>
+        </div>
+      </div>
+      <div class="grid4" style="margin-top:12px">
+        <div class="card pad"><span class="pill red">Clarify</span><h3>Ask before solving</h3><p class="mini">Scope, success, data shape, privacy, impact, time window, partner expectations.</p></div>
+        <div class="card pad"><span class="pill gold">Diagnose</span><h3>Compare good vs bad</h3><p class="mini">Group failures, isolate deltas, reduce guesswork, identify blast radius.</p></div>
+        <div class="card pad"><span class="pill green">Prove</span><h3>Validate with data</h3><p class="mini">SQL/script evidence, sample IDs redacted, counts, confidence level.</p></div>
+        <div class="card pad"><span class="pill blue">Package</span><h3>Make it actionable</h3><p class="mini">Root cause, impact, mitigation, owner, next step, escalation path.</p></div>
+      </div>
+      <div class="card pad" style="margin-top:12px">
+        <h3>Checklist: interview behaviors to show</h3>
+        <div class="tinygrid checks">
+          <div class="check"><input type="checkbox"><label>Ask 3–5 clarifying questions before coding or designing.</label></div>
+          <div class="check"><input type="checkbox"><label>Think aloud: “I’m testing this hypothesis because…”</label></div>
+          <div class="check"><input type="checkbox"><label>Redact sensitive values before printing, logging, or summarizing.</label></div>
+          <div class="check"><input type="checkbox"><label>Quantify impact with counts, percentages, time window, partner/campaign scope.</label></div>
+          <div class="check"><input type="checkbox"><label>Separate facts, hypotheses, confidence, and recommended next step.</label></div>
+          <div class="check"><input type="checkbox"><label>End with a debug pack or product decision memo, not just “I found a bug.”</label></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="coding" data-search="coding integration cockpit capi payload requests responses root cause debugging code signal">
+      <div class="section-head"><div><h2>1. Coding / Integration Cockpit</h2><p class="lead">What they are looking for: hands-on investigation of sanitized artifacts, useful scripts, validation mindset, escalation hygiene, and sensitive-data handling.</p></div><span class="pill red">45 min</span></div>
+      <div class="grid3">
+        <div class="card pad"><h3>Minute 0–5: frame</h3><ul><li>What is failing? partner, endpoint, status, metric?</li><li>Expected output: root cause, script, debug pack?</li><li>Available files: requests, responses, logs, schema, CSV?</li><li>Sensitive fields: email, phone, IP, device ID, user ID?</li></ul></div>
+        <div class="card pad"><h3>Minute 5–25: inspect + script</h3><ul><li>Load artifacts robustly.</li><li>Group by status/error/partner/time/schema version.</li><li>Compare passing vs failing payloads.</li><li>Check schema, auth, timestamps, dedupe, enums, hashing, nulls.</li></ul></div>
+        <div class="card pad"><h3>Minute 25–45: prove + package</h3><ul><li>Quantify blast radius.</li><li>Show evidence from data.</li><li>State likely root cause + confidence.</li><li>Recommend fix, validation, escalation owner.</li></ul></div>
+      </div>
+
+      <details open style="margin-top:12px"><summary>CAPI root-cause matrix: what to check fast</summary><div class="detail-body">
+        <table class="matrix">
+          <thead><tr><th>Symptom</th><th>Likely check</th><th>Evidence to produce</th><th>Say this</th></tr></thead>
+          <tbody>
+            <tr><td>400 / validation failed</td><td>Required fields, schema version, enum names, nested object shape, type mismatch.</td><td>Count invalid records by missing field + example redacted event IDs.</td><td>“I’ll validate against the contract and group by failed rule, not inspect one row manually.”</td></tr>
+            <tr><td>401 / 403</td><td>Expired token, wrong account/partner ID, environment mismatch, permission scope.</td><td>Failure starts after token rotation; only one partner/account impacted.</td><td>“This looks authentication/authorization scoped; I’ll avoid printing secrets and verify timing.”</td></tr>
+            <tr><td>409 / duplicate</td><td>Event ID reuse, idempotency key, retry behavior, batch replay.</td><td>Duplicate event_id count, retries with same payload, correlation IDs.</td><td>“Duplicates may be expected with retries; I need to distinguish safe idempotency from accidental replay.”</td></tr>
+            <tr><td>422 / match quality low</td><td>Email/phone normalization, SHA-256 hashing format, lowercasing, whitespace, missing identifiers, consent flags.</td><td>Match drop correlated with identifier transformation or missing consent.</td><td>“I won’t expose raw identifiers; I’ll compare metadata about presence/format only.”</td></tr>
+            <tr><td>429 / rate limit</td><td>Batch size, retry backoff, concurrency, partner quota, burst window.</td><td>Requests per minute vs quota; retry-after ignored or absent.</td><td>“This is likely operational, so the fix is pacing/backoff plus monitoring.”</td></tr>
+            <tr><td>5xx from platform</td><td>Backend outage, dependency issue, payload-specific crash, regional issue.</td><td>Multiple partners impacted? Correlation with deployment or dependency alerts.</td><td>“I’ll prove whether this is partner-specific or platform-wide before escalating.”</td></tr>
+            <tr><td>Data delayed</td><td>Queue lag, batch window, ETL delay, partition issue, timezone/date boundary.</td><td>Ingest timestamp vs event timestamp distribution, lag p50/p95.</td><td>“I’ll separate late arrival from data loss; the remediation differs.”</td></tr>
+            <tr><td>Attribution mismatch</td><td>Event names, conversion window, currency, timestamp timezone, dedupe rule, campaign/account mapping.</td><td>Delta by event_type/campaign/day with sample aggregate counts.</td><td>“I’ll avoid claiming the partner is wrong until we align definitions.”</td></tr>
+          </tbody>
+        </table>
+      </div></details>
+
+      <div class="grid2" style="margin-top:12px">
+        <div class="card pad"><h3>Clarifying questions — Coding</h3><ul><li>What does “correct” mean here: accepted events, conversion match rate, no data loss, or API success?</li><li>Is the failure new, intermittent, partner-specific, campaign-specific, or global?</li><li>What time window should I inspect?</li><li>Are these artifacts sanitized? Which fields should I avoid printing?</li><li>Should I optimize for finding root cause or producing a reusable validation script?</li><li>Do we have schema docs or known expected examples?</li></ul></div>
+        <div class="card pad"><h3>Hypothesis ladder</h3><ol><li><b>Input issue:</b> missing fields, bad enum, malformed JSON, wrong types.</li><li><b>Identity/normalization:</b> hashing, case, whitespace, consent, identifier presence.</li><li><b>Mapping:</b> partner ID, campaign ID, pixel/dataset ID, event name.</li><li><b>Temporal:</b> event_time, timezone, delayed ingestion, attribution window.</li><li><b>Transport:</b> rate limits, retries, network, endpoint, auth.</li><li><b>Platform:</b> outage, deployment, dependency, schema rollout.</li></ol></div>
+      </div>
+    </section>
+
+    <section class="section" id="scripts" data-search="scripts python sql code snippets validation redaction schema duplicate rate limit grouping">
+      <div class="section-head"><div><h2>2. Coding script toolbox</h2><p class="lead">Reusable snippets to adapt in CodeSignal. The goal is clean, robust, privacy-safe analysis — not over-engineering.</p></div><span class="pill blue">copy-ready</span></div>
+      <div class="grid2">
+        <div class="card pad codewrap"><h3>Python: load JSON/JSONL/CSV safely</h3><button class="copy" onclick="copyCode(this)">copy</button><pre><code>import json, csv, pathlib
+from collections import Counter, defaultdict
+from datetime import datetime, timezone
+
+SENSITIVE = {"email", "phone", "ip", "device_id", "user_id", "idfa", "aaid", "access_token"}
+
+def redact_value(v):
+    if v is None: return None
+    s = str(v)
+    if len(s) <= 6: return "***"
+    return s[:2] + "***" + s[-2:]
+
+def redact(obj):
+    if isinstance(obj, dict):
+        return {k: (redact_value(v) if k.lower() in SENSITIVE else redact(v)) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [redact(x) for x in obj]
+    return obj
+
+def load_artifact(path):
+    p = pathlib.Path(path)
+    text = p.read_text(encoding="utf-8").strip()
+    if p.suffix.lower() == ".csv":
+        with p.open(newline="", encoding="utf-8") as f:
+            return list(csv.DictReader(f))
+    if p.suffix.lower() == ".jsonl":
+        return [json.loads(line) for line in text.splitlines() if line.strip()]
+    if p.suffix.lower() == ".json":
+        data = json.loads(text)
+        return data if isinstance(data, list) else [data]
+    raise ValueError(f"Unsupported file type: {p.suffix}")</code></pre></div>
+        <div class="card pad codewrap"><h3>Python: group failures and find blast radius</h3><button class="copy" onclick="copyCode(this)">copy</button><pre><code>def get(d, path, default=None):
+    cur = d
+    for key in path.split("."):
+        if not isinstance(cur, dict) or key not in cur:
+            return default
+        cur = cur[key]
+    return cur
+
+def summarize(records):
+    by_status = Counter(get(r, "response.status", get(r, "status", "unknown")) for r in records)
+    by_error = Counter(get(r, "response.error.code", get(r, "error_code", "none")) for r in records)
+    by_partner = Counter(get(r, "partner_id", get(r, "request.partner_id", "unknown")) for r in records)
+    return {"total": len(records), "by_status": by_status, "by_error": by_error, "by_partner": by_partner}
+
+def blast_radius(records):
+    failed = [r for r in records if str(get(r,"response.status",get(r,"status",""))).startswith(("4","5"))]
+    return {
+      "failed_count": len(failed),
+      "failure_rate": round(len(failed)/max(len(records),1)*100,2),
+      "partners_impacted": len(set(get(r,"partner_id","unknown") for r in failed)),
+      "top_errors": Counter(get(r,"response.error.code","none") for r in failed).most_common(5)
+    }</code></pre></div>
+      </div>
+      <div class="grid2" style="margin-top:12px">
+        <div class="card pad codewrap"><h3>Python: schema-ish validator for CAPI events</h3><button class="copy" onclick="copyCode(this)">copy</button><pre><code>REQUIRED = ["event_name", "event_time", "partner_id"]
+ALLOWED_EVENTS = {"Purchase", "Lead", "Subscribe", "AddToCart", "Signup", "ViewContent"}
+
+def validate_event(event):
+    errors = []
+    for f in REQUIRED:
+        if event.get(f) in (None, "", []):
+            errors.append(f"missing:{f}")
+    if event.get("event_name") and event["event_name"] not in ALLOWED_EVENTS:
+        errors.append("bad_enum:event_name")
+    if "event_time" in event:
+        try:
+            ts = int(event["event_time"])
+            if ts < 946684800 or ts > 4102444800:
+                errors.append("suspicious:event_time")
+        except Exception:
+            errors.append("bad_type:event_time")
+    ids = event.get("user_data", {})
+    if not any(ids.get(k) for k in ["email_sha256", "phone_sha256", "external_id", "device_id"]):
+        errors.append("missing:user_identifier")
+    if event.get("consent") is False:
+        errors.append("blocked:consent_false")
+    return errors
+
+def validation_report(events):
+    counts = Counter()
+    examples = defaultdict(list)
+    for e in events:
+        for err in validate_event(e.get("request", e)):
+            counts[err] += 1
+            if len(examples[err]) < 3:
+                examples[err].append(redact(e))
+    return counts, examples</code></pre></div>
+        <div class="card pad codewrap"><h3>Python: compare success vs failure payloads</h3><button class="copy" onclick="copyCode(this)">copy</button><pre><code>def flatten(d, prefix=""):
+    out = {}
+    if isinstance(d, dict):
+        for k, v in d.items():
+            out.update(flatten(v, f"{prefix}.{k}" if prefix else k))
+    else:
+        out[prefix] = type(d).__name__
+    return out
+
+def compare_shapes(success_records, failed_records):
+    success_keys = Counter()
+    failed_keys = Counter()
+    for r in success_records:
+        success_keys.update(flatten(r.get("request", r)).keys())
+    for r in failed_records:
+        failed_keys.update(flatten(r.get("request", r)).keys())
+    only_fail = sorted(set(failed_keys) - set(success_keys))
+    missing_in_fail = sorted(set(success_keys) - set(failed_keys))
+    rare_in_fail = [k for k,c in failed_keys.items() if c < max(2, len(failed_records)*0.05)]
+    return {"missing_in_fail": missing_in_fail[:25], "only_in_fail": only_fail[:25], "rare_in_fail": rare_in_fail[:25]}
+
+# Interview line:
+# "I am comparing structure, not sensitive values, to isolate whether failure is schema or data-content related."</code></pre></div>
+      </div>
+      <div class="grid2" style="margin-top:12px">
+        <div class="card pad codewrap"><h3>SQL: failure rate + blast radius</h3><button class="copy" onclick="copyCode(this)">copy</button><pre><code>-- Replace table/columns with provided artifact schema.
+SELECT
+  partner_id,
+  DATE_TRUNC('hour', request_ts) AS hr,
+  COUNT(*) AS total_requests,
+  SUM(CASE WHEN status_code >= 400 THEN 1 ELSE 0 END) AS failed_requests,
+  ROUND(100.0 * SUM(CASE WHEN status_code >= 400 THEN 1 ELSE 0 END) / COUNT(*), 2) AS failure_pct,
+  COUNT(DISTINCT campaign_id) AS campaigns_seen,
+  COUNT(DISTINCT error_code) AS error_types
+FROM capi_request_logs
+WHERE request_ts >= CURRENT_TIMESTAMP - INTERVAL '24 hours'
+GROUP BY 1,2
+ORDER BY failure_pct DESC, failed_requests DESC;</code></pre></div>
+        <div class="card pad codewrap"><h3>SQL: compare before/after regression</h3><button class="copy" onclick="copyCode(this)">copy</button><pre><code>WITH base AS (
+  SELECT
+    CASE WHEN request_ts < TIMESTAMP '2026-05-19 18:00:00' THEN 'before' ELSE 'after' END AS period,
+    error_code,
+    status_code,
+    COUNT(*) AS n
+  FROM capi_request_logs
+  WHERE request_ts BETWEEN TIMESTAMP '2026-05-19 12:00:00' AND TIMESTAMP '2026-05-20 00:00:00'
+  GROUP BY 1,2,3
+)
+SELECT period, status_code, error_code, n,
+       ROUND(100.0 * n / SUM(n) OVER (PARTITION BY period), 2) AS pct_of_period
+FROM base
+ORDER BY error_code, period;</code></pre></div>
+      </div>
+    </section>
+
+    <section class="section" id="debugpack" data-search="debug pack escalation hygiene root cause evidence summary mitigation owners next steps">
+      <div class="section-head"><div><h2>3. Debug pack format</h2><p class="lead">Your final output should sound like something a partner engineer, product manager, and backend engineer can all act on.</p></div><span class="pill green">final answer</span></div>
+      <div class="card pad">
+        <div class="grid2">
+          <div>
+            <h3>Fill this live</h3>
+            <div class="say">Summary: In the provided artifacts, I found [failure pattern] affecting [scope] during [time window]. Evidence points to [root cause] with [confidence].<button class="copy" onclick="copyParent(this)">copy</button></div>
+            <div style="height:8px"></div>
+            <div class="say">Evidence: [x/y] requests failed; failures cluster by [status/error/partner/schema version]; successful payloads include [field/format] while failing ones [missing/mismatch].<button class="copy" onclick="copyParent(this)">copy</button></div>
+            <div style="height:8px"></div>
+            <div class="say">Next step: Partner should [fix payload/config] OR platform team should [investigate service/deployment]. I’d validate with [test], monitor [metric], and escalate to [owner] if [threshold].<button class="copy" onclick="copyParent(this)">copy</button></div>
+          </div>
+          <div>
+            <h3>Escalation hygiene</h3>
+            <table class="matrix"><tbody>
+              <tr><td>Facts</td><td>Counts, timestamps, status codes, redacted request IDs, affected partner/campaign.</td></tr>
+              <tr><td>Hypothesis</td><td>What likely changed and why it explains the data.</td></tr>
+              <tr><td>Confidence</td><td>High if reproduced + clustered; medium if correlated; low if sparse.</td></tr>
+              <tr><td>Risk</td><td>Data loss, delayed reporting, incorrect attribution, privacy exposure, launch blocker.</td></tr>
+              <tr><td>Action</td><td>Fix, rollback, retry, replay, rate-limit, monitor, partner update.</td></tr>
+            </tbody></table>
+          </div>
+        </div>
+      </div>
+      <div class="card pad" style="margin-top:12px">
+        <h3>Final coding script to say out loud</h3>
+        <div class="quote">“I’ve tried to avoid overfitting to one example. The repeatable evidence is: failures cluster around __, the successful records differ by __, and the blast radius appears limited to __. I’d package the debug pack with redacted samples, validation counts, the likely root cause, and recommended owner/next action.”</div>
+      </div>
+    </section>
+
+    <section class="section" id="product" data-search="product thinking domain experience decision ambiguity customer advocacy tradeoffs">
+      <div class="section-head"><div><h2>4. Product Thinking Cockpit</h2><p class="lead">This interview is about decision quality under ambiguity: customer needs, technical constraints, partner advocacy, tradeoffs, and long-term impact.</p></div><span class="pill gold">45 min</span></div>
+      <div class="grid3">
+        <div class="card pad"><h3>Framework: PACT-RO</h3><ul><li><b>P</b>roblem + customer</li><li><b>A</b>ssumptions + unknowns</li><li><b>C</b>onstraints: privacy, correctness, timeline</li><li><b>T</b>radeoffs</li><li><b>R</b>ecommendation</li><li><b>O</b>perations: metrics, rollback, support</li></ul></div>
+        <div class="card pad"><h3>What to optimize</h3><ul><li>Correct event ingestion</li><li>Partner time-to-launch</li><li>Advertiser trust</li><li>Privacy-safe validation</li><li>Platform scalability</li><li>Operational simplicity</li></ul></div>
+        <div class="card pad"><h3>What not to do</h3><ul><li>Jump to solution before clarifying.</li><li>Promise a custom one-off without naming cost.</li><li>Ignore privacy or data retention.</li><li>Frame partner as “wrong” without evidence.</li><li>Optimize only for launch date.</li></ul></div>
+      </div>
+      <details open style="margin-top:12px"><summary>Product decision matrix: how to answer tradeoff questions</summary><div class="detail-body">
+        <table class="matrix">
+          <thead><tr><th>Scenario</th><th>Best answer shape</th><th>Tradeoff to mention</th><th>Strong closing</th></tr></thead>
+          <tbody>
+            <tr><td>Strategic partner wants custom CAPI behavior</td><td>Clarify business value, determine if existing platform can support, propose config/paved path first.</td><td>Speed for one partner vs long-term platform complexity.</td><td>“I’d time-box a workaround only if monitored, reversible, and on a path to standardization.”</td></tr>
+            <tr><td>Launch date is tomorrow but validation is incomplete</td><td>Assess severity, failure mode, blast radius, rollback ability, and customer promise.</td><td>Revenue/timeline vs advertiser trust and correctness.</td><td>“If correctness or privacy is uncertain, I’d recommend delaying or limiting rollout.”</td></tr>
+            <tr><td>Metrics disagree between Netflix and partner</td><td>Align definitions first: event time, attribution window, dedupe, time zone, currency, campaign mapping.</td><td>Fast blame vs shared data reconciliation.</td><td>“I’d create a joint reconciliation packet with agreed definitions and redacted aggregates.”</td></tr>
+            <tr><td>Partner asks for raw user-level debugging data</td><td>Acknowledge need, offer privacy-safe alternatives: aggregates, hashed identifiers, sampled redacted logs.</td><td>Debuggability vs privacy/compliance.</td><td>“I’d protect user data while still giving enough signal to unblock integration.”</td></tr>
+            <tr><td>Engineering says fix is low priority; partner is blocked</td><td>Quantify impact, advocate with data, propose workaround, clarify severity and escalation threshold.</td><td>Roadmap focus vs customer unblock.</td><td>“I’d be the connective tissue: evidence, options, owner, and timeline.”</td></tr>
+          </tbody>
+        </table>
+      </div></details>
+      <div class="grid2" style="margin-top:12px">
+        <div class="card pad"><h3>Product answer skeleton</h3><div class="say">First, I’d clarify the goal: are we optimizing launch speed, conversion accuracy, partner adoption, or operational stability? Then I’d identify constraints — privacy, API contract, engineering capacity, and reversibility. My recommendation would be [choice], because [business reason], with [risk controls], [metric], and [rollback].<button class="copy" onclick="copyParent(this)">copy</button></div></div>
+        <div class="card pad"><h3>Behavioral + product bridge</h3><div class="say">A time I handled ambiguity: I started by aligning stakeholders on the problem and success metrics, used data to separate symptoms from root cause, communicated tradeoffs transparently, and created an operational plan so the decision was safe after launch — not just persuasive in the meeting.<button class="copy" onclick="copyParent(this)">copy</button></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="questions" data-search="product questions simulator behavioral situational collaboration advocacy customer needs">
+      <div class="section-head"><div><h2>5. Product question simulator</h2><p class="lead">Practice different question styles. Click generate, answer out loud in 90 seconds, then compare to the outline.</p></div><button class="btn red" onclick="newProductQuestion()">Generate question</button></div>
+      <div class="questionbox" id="questionBox">
+        <h3 id="qText">Click “Generate question” to start.</h3>
+        <div id="qTags"></div>
+        <div id="qOutline" class="hide"></div>
+        <button class="btn" style="margin-top:10px" onclick="toggleOutline()">Show/hide answer outline</button>
+      </div>
+      <div class="grid3" style="margin-top:12px">
+        <div class="card pad"><h3>Question types to expect</h3><ul><li>“Tell me about a time…”</li><li>“What would you do if…”</li><li>“How would you decide between…”</li><li>“How do you advocate for a customer?”</li><li>“When did you misjudge a situation?”</li></ul></div>
+        <div class="card pad"><h3>Signals to show</h3><ul><li>Independent judgment</li><li>Partner empathy without being a pushover</li><li>Comfort with incomplete data</li><li>Tradeoff vocabulary</li><li>Operational ownership after the decision</li></ul></div>
+        <div class="card pad"><h3>Metrics to mention</h3><ul><li>API success rate</li><li>Validation failure rate</li><li>Event match quality</li><li>Time to onboard</li><li>Partner support tickets</li><li>Launch rollback rate</li><li>Data freshness / lag</li></ul></div>
+      </div>
+    </section>
+
+    <section class="section" id="flashcards" data-search="flashcards quiz multiple choice root cause api privacy product tradeoff">
+      <div class="section-head"><div><h2>6. Flashcards + multiple choice</h2><p class="lead">Fast recall drills. Click cards to flip. Multiple choice gives instant feedback.</p></div><button class="btn" onclick="shuffleFlashcards()">Shuffle</button></div>
+      <div class="grid3" id="flashGrid"></div>
+      <div class="grid2" style="margin-top:12px">
+        <div class="card pad"><h3>Mini quiz</h3><div id="quiz"></div><button class="btn red" style="margin-top:10px" onclick="newQuiz()">New quiz</button></div>
+        <div class="card pad"><h3>Panic response generator</h3><p class="mini">Use this when you blank out.</p><div class="quote" id="panicLine">Click “Panic line” at the top.</div></div>
+      </div>
+    </section>
+
+    <section class="section" id="final" data-search="final ten minutes review cram consolidated cheat sheet">
+      <div class="section-head"><div><h2>7. Final 10-minute review</h2><p class="lead">This is the compact version to read immediately before joining.</p></div><span class="pill red">memorize</span></div>
+      <div class="grid2">
+        <div class="card pad"><h3>Coding: 7 things to check</h3><ol><li>Status/error distribution.</li><li>Good vs bad payload shape.</li><li>Required fields and enum mismatches.</li><li>Auth/environment/account mapping.</li><li>Timestamp/timezone/late arrival.</li><li>Retries, duplicates, idempotency, rate limits.</li><li>Privacy: redact sensitive values and avoid raw identifiers.</li></ol></div>
+        <div class="card pad"><h3>Product: 7 things to say</h3><ol><li>“Let me clarify the customer and success metric.”</li><li>“The main constraints are privacy, correctness, timeline, and operability.”</li><li>“I’d prefer paved-path platform behavior over custom one-offs.”</li><li>“The tradeoff is speed vs long-term complexity.”</li><li>“I’d time-box any workaround and make it reversible.”</li><li>“I’d define launch guardrails and rollback criteria.”</li><li>“I’d communicate clearly to partner and internal owners.”</li></ol></div>
+      </div>
+      <div class="card pad" style="margin-top:12px"><h3>One final sentence</h3><div class="quote">“My style is to bring structure to ambiguity: clarify the goal, inspect the evidence, communicate tradeoffs candidly, protect user data, and leave the team with an actionable path forward.”</div></div>
+      <div class="card pad" style="margin-top:12px"><h3>Sources used</h3><p class="mini">Built from your Netflix Ads Integration Support Engineering interview FAQ and the correct Netflix Ads Conversion API role framing. The FAQ describes the Coding/Integration and Product Thinking interviews, plus preparation tips emphasizing thinking aloud, clarification, tradeoffs, and culture alignment.</p></div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast">Copied</div>
+<script>
+const checks = [...document.querySelectorAll('.check input')];
+function saveChecks(){localStorage.setItem('nf_capi_cheat_checks', JSON.stringify(checks.map(c=>c.checked)));updateProgress();}
+function loadChecks(){try{const s=JSON.parse(localStorage.getItem('nf_capi_cheat_checks')||'[]');checks.forEach((c,i)=>{c.checked=!!s[i];c.addEventListener('change',saveChecks)});}catch(e){} updateProgress();}
+function updateProgress(){const done=checks.filter(c=>c.checked).length,total=checks.length,p=total?Math.round(done/total*100):0;document.getElementById('bar').style.width=p+'%';document.getElementById('progressText').textContent=p+'% checked';}
+function resetChecks(){checks.forEach(c=>c.checked=false);saveChecks();toast('Checklist reset');}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1200)}
+function copyText(text){navigator.clipboard.writeText(text).then(()=>toast('Copied')).catch(()=>toast('Copy failed'))}
+function copyParent(btn){const clone=btn.parentElement.cloneNode(true);clone.querySelectorAll('button').forEach(b=>b.remove());copyText(clone.textContent.trim())}
+function copyCode(btn){copyText(btn.parentElement.querySelector('code').textContent)}
+function toggleSideMode(){document.body.classList.toggle('side-mode');toast(document.body.classList.contains('side-mode')?'Side-window mode on':'Side-window mode off')}
+function searchCards(q){q=q.trim().toLowerCase();document.querySelectorAll('[data-search], .card, details').forEach(el=>el.classList.remove('filtered'));if(!q)return;document.querySelectorAll('.section').forEach(sec=>{const txt=(sec.textContent+' '+(sec.dataset.search||'')).toLowerCase();if(!txt.includes(q))sec.classList.add('filtered')})}
+const productQuestions = [
+{q:'A major partner wants a custom payload field that is not in the standard CAPI contract. How do you decide whether to support it?',tags:['customization','platform tradeoff'],o:['Clarify business value, launch urgency, number of partners affected, and whether existing config can support it.','Prefer standard/paved-path integration; assess if field belongs in extensible metadata or core schema.','Tradeoff: short-term partner unblock vs long-term platform complexity and support burden.','Recommendation: time-box workaround only if monitored, reversible, documented, and on path to platform standardization.']},
+{q:'A partner says Netflix is undercounting conversions by 30%. Engineering says logs look healthy. What do you do?',tags:['customer advocacy','data reconciliation'],o:['Align definitions: event time vs ingest time, attribution window, dedupe, campaign mapping, timezone, currency.','Gather aggregate evidence from both sides without raw user-level data.','Compare counts by event_name, campaign, day/hour, status, and validation result.','Create a reconciliation packet and avoid blame until definitions/data are aligned.']},
+{q:'Launch is scheduled tomorrow, but validation shows 8% of events fail schema checks. Product wants to proceed. What is your recommendation?',tags:['launch readiness','judgment'],o:['Clarify severity: which events fail, whether failure causes data loss, reporting skew, or privacy risk.','Quantify partner/campaign impact and reversibility.','Recommend limited launch only if failures are non-critical, monitored, and have rollback; otherwise delay.','Define go/no-go criteria, owner, partner communication, and retry/replay plan.']},
+{q:'Tell me about a time you misjudged a technical/product situation and course-corrected.',tags:['behavioral','self-awareness'],o:['Use STAR. Situation: ambiguous integration/customer problem.','Own the misjudgment clearly without blaming.','Show what signal changed your mind and how you updated plan.','End with durable lesson: better upfront metrics, validation, stakeholder alignment, or rollout guardrails.']},
+{q:'A partner asks for raw logs containing user identifiers to debug matching issues. How do you respond?',tags:['privacy','partner advocacy'],o:['Acknowledge the debugging need and explain privacy constraints.','Offer alternatives: redacted examples, aggregate match diagnostics, hashed/canonicalized format checks, synthetic test cases.','Escalate through approved data-sharing channels if necessary.','Position privacy-safe validation as preserving trust, not blocking support.']},
+{q:'How would you prioritize between fixing one strategic partner launch blocker and improving the self-serve validation tooling for all partners?',tags:['prioritization','scale'],o:['Clarify partner value, deadline, severity, number of future launches impacted by tooling.','Compare one-time revenue/risk vs scalable operational leverage.','Possible answer: unblock partner with minimal reversible fix while carving out tooling improvement to prevent recurrence.','Define metrics: onboarding time, validation failure rate, ticket volume, repeated issue count.']},
+{q:'What would make you escalate an integration issue as SEV-level instead of normal support?',tags:['incident','operations'],o:['Look for broad customer impact, data loss, privacy exposure, launch/revenue criticality, platform-wide failure.','Quantify blast radius and time sensitivity.','Use existing incident process, clear owner, comms cadence, and mitigation path.','Afterward: postmortem, monitoring gap, runbook update.']},
+{q:'How do you advocate for a partner while still protecting engineering focus?',tags:['advocacy','communication'],o:['Translate partner pain into concrete impact and reproducible evidence.','Bring options, not just urgency: workaround, config change, product fix, defer with explanation.','Use severity/impact to prioritize transparently.','Close loop with partner and document learnings for future integrations.']}
+];
+function newProductQuestion(){const item=productQuestions[Math.floor(Math.random()*productQuestions.length)];document.getElementById('qText').textContent=item.q;document.getElementById('qTags').innerHTML=item.tags.map(t=>`<span class="pill blue">${t}</span>`).join(' ');document.getElementById('qOutline').className='hide';document.getElementById('qOutline').innerHTML=item.o.map((x,i)=>`<div class="answerline"><b>${i+1}. ${['Clarify','Analyze','Tradeoff','Close'][i]||'Step'}</b><span>${x}</span></div>`).join('')}
+function toggleOutline(){document.getElementById('qOutline').classList.toggle('hide')}
+const flashcards = [
+{q:'What is the coding interview really testing?',a:'Problem framing, debugging approach, scripting craft, validation mindset, escalation hygiene, and sensitive data handling.'},
+{q:'Best first move when given sample payloads?',a:'Clarify success criteria and sensitive fields, then compare successful vs failing examples before writing too much code.'},
+{q:'What does 422 or validation failure suggest?',a:'Payload shape, required fields, type mismatch, enum mismatch, timestamp format, identifier formatting, or consent-related rejection.'},
+{q:'What does “blast radius” mean?',a:'How many requests/events/partners/campaigns/time windows are affected, and whether issue is isolated or platform-wide.'},
+{q:'Product answer shape?',a:'Clarify problem → assumptions/unknowns → constraints → tradeoffs → recommendation → operational plan.'},
+{q:'How to handle partner custom request?',a:'Prefer paved path; quantify value; time-box workaround only if reversible, monitored, documented, and scalable later.'},
+{q:'Privacy-safe debugging means?',a:'Avoid raw identifiers/secrets. Use redaction, aggregates, hashes, synthetic examples, and minimum necessary data.'},
+{q:'Strong final coding output?',a:'Debug pack: summary, impact, evidence, likely root cause, confidence, mitigation, owner, validation, escalation.'},
+{q:'When metrics disagree?',a:'Align definitions first: event time, ingest time, timezone, attribution window, dedupe, campaign mapping, filtering.'}
+];
+function renderFlashcards(list=flashcards){document.getElementById('flashGrid').innerHTML=list.slice(0,6).map((f,i)=>`<div class="card pad flash" onclick="this.classList.toggle('flipped')"><div class="q">${f.q}</div><div class="a">${f.a}</div><div class="mini">click to flip</div></div>`).join('')}
+function shuffleFlashcards(){const arr=[...flashcards].sort(()=>Math.random()-.5);renderFlashcards(arr)}
+const quizzes = [
+{q:'A 400 error spike starts after a partner changed from “Purchase” to “purchase”. What category is most likely?',c:['Auth failure','Enum/schema mismatch','Rate limit','Platform outage'],a:1},
+{q:'A partner asks for raw email addresses to debug match quality. Best response?',c:['Send raw logs to unblock quickly','Refuse without alternatives','Offer privacy-safe diagnostics and redacted/aggregate evidence','Ignore the request'],a:2},
+{q:'The strongest Product Thinking answer includes:',c:['A confident solution immediately','Tradeoffs, constraints, recommendation, and operational plan','Only customer empathy','Only engineering feasibility'],a:1},
+{q:'Repeated 429s during batch upload usually suggest:',c:['Retry/backoff/concurrency/quota problem','Missing event_name','Wrong timezone','Bad enum'],a:0},
+{q:'A debug pack should separate:',c:['Backend and frontend only','Facts, hypothesis, confidence, action','SQL and Python only','Partner and customer only'],a:1}
+];
+function newQuiz(){const q=quizzes[Math.floor(Math.random()*quizzes.length)];document.getElementById('quiz').innerHTML=`<div class="mini" style="font-weight:900;color:#fff">${q.q}</div><div class="choices">${q.c.map((x,i)=>`<button class="choice" onclick="gradeChoice(this,${i===q.a})">${x}</button>`).join('')}</div>`}
+function gradeChoice(btn,ok){btn.classList.add(ok?'correct':'wrong');if(ok)toast('Correct');else toast('Try again')}
+const panics=[
+'I want to avoid guessing, so I’ll first separate facts from hypotheses and then test the highest-signal hypothesis with the artifacts.',
+'I’m going to compare successful and failing cases; that should tell me whether this is schema, configuration, transport, or platform behavior.',
+'Let me restate the goal to make sure I’m solving the right problem: we need actionable root cause, impact, and next step, not just a script output.',
+'I need one more clarifying assumption: should we optimize for partner unblock, long-term platform correctness, or privacy-safe validation?',
+'I don’t want to expose sensitive values, so I’ll use redacted samples and aggregate counts while preserving enough detail to debug.'
+];
+function randomPanic(){const p=panics[Math.floor(Math.random()*panics.length)];document.getElementById('panicLine').textContent=p;copyText(p)}
+loadChecks();renderFlashcards();newQuiz();
+</script>
+</body>
+</html>
