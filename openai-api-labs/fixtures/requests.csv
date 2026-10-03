@@ -1,0 +1,6 @@
+customer_id,status,latency,endpoint
+c001,200,0.82,/responses
+c002,200,1.10,/responses
+c003,429,0.31,/responses
+c004,500,4.70,/responses
+c005,200,0.95,/responses

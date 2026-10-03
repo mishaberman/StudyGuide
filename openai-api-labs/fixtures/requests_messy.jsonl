@@ -1,0 +1,9 @@
+{"customer_id":"c001","status":200,"latency":0.82}
+{"customer_id":"c002","status":"200","latency":"1.10"}
+{"customer_id":"c003","status":429,"latency":""}
+{"customer_id":"c004","status":500}
+{"customer_id":"c005","status":200,"latency":"banana"}
+THIS IS NOT JSON
+{"customer_id":"c006","status":"401","latency":"0.12"}
+{"customer_id":"c007","status":null,"latency":2.4}
+{"customer_id":"c008","status":200,"latency":null}

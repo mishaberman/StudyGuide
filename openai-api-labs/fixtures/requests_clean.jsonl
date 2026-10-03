@@ -1,0 +1,8 @@
+{"customer_id":"c001","status":200,"latency":0.82,"endpoint":"/responses"}
+{"customer_id":"c002","status":200,"latency":1.10,"endpoint":"/responses"}
+{"customer_id":"c003","status":429,"latency":0.31,"endpoint":"/responses"}
+{"customer_id":"c004","status":500,"latency":4.70,"endpoint":"/responses"}
+{"customer_id":"c005","status":200,"latency":0.95,"endpoint":"/responses"}
+{"customer_id":"c006","status":401,"latency":0.12,"endpoint":"/responses"}
+{"customer_id":"c007","status":200,"latency":1.75,"endpoint":"/responses"}
+{"customer_id":"c008","status":200,"latency":0.67,"endpoint":"/responses"}

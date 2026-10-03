@@ -1,0 +1,211 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "00_env_check (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/00_env_check.py",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "01_python_data_structures (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/01_python_data_structures.py",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "02_safe_numbers (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/02_safe_numbers.py",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "03_argparse_demo (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/03_argparse_demo.py",
+      "args": [
+        "Explain HTTP 429"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "04_jsonl_loader (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/04_jsonl_loader.py",
+      "args": [
+        "fixtures/requests_messy.jsonl"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "05_metrics (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/05_metrics.py",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "06_full_offline_analyzer (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/06_full_offline_analyzer.py",
+      "args": [
+        "fixtures/requests_messy.jsonl"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "07_basic_response (LIVE - billable)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/07_basic_response.py",
+      "args": [
+        "--live"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "08_safe_api_wrapper (LIVE - billable)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/08_safe_api_wrapper.py",
+      "args": [
+        "--live"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "09_structured_output (LIVE - billable)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/09_structured_output.py",
+      "args": [
+        "--live"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "10_streaming (LIVE - billable)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/10_streaming.py",
+      "args": [
+        "--live"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "11_function_calling (LIVE - billable)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/11_function_calling.py",
+      "args": [
+        "--live"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "12_basic_agent (LIVE - billable)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/12_basic_agent.py",
+      "args": [
+        "--live"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "13_agent_with_tool (LIVE - billable)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/13_agent_with_tool.py",
+      "args": [
+        "--live"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "14_agent_handoff (LIVE - billable)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/14_agent_handoff.py",
+      "args": [
+        "--live"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "15_session_memory (LIVE - billable)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/15_session_memory.py",
+      "args": [
+        "--live"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "16_fake_openai_client (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/16_fake_openai_client.py",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "17_micro_tests (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/17_micro_tests.py",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "18_debug_me (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/18_debug_me.py",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "19_csv_loader (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/labs/19_csv_loader.py",
+      "args": [
+        "fixtures/requests.csv"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

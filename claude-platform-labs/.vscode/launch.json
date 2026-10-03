@@ -1,0 +1,151 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "01_messages (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.01_messages",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "02_streaming (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.02_streaming",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "03_structured (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.03_structured",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "04_tool_loop (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.04_tool_loop",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "05_evaluation (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.05_evaluation",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "06_mcp (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.06_mcp",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "07_reliability (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.07_reliability",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "08_content_freshness (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.08_content_freshness",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "09_agent_sdk (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.09_agent_sdk",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "10_log_analyzer (offline)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.10_log_analyzer",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "01_messages (LIVE - billable)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.01_messages",
+      "args": [
+        "--live"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "02_streaming (LIVE - billable)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.02_streaming",
+      "args": [
+        "--live"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "03_structured (LIVE - billable)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.03_structured",
+      "args": [
+        "--live"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "04_tool_loop (LIVE - billable)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.04_tool_loop",
+      "args": [
+        "--live"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "05_evaluation (LIVE - billable)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.05_evaluation",
+      "args": [
+        "--live"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "09_agent_sdk (LIVE - billable)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "labs.09_agent_sdk",
+      "args": [
+        "--live"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{"status":200,"latency_ms":120}
+{"status":"429","latency_ms":"300"}
+{"status":200}
+{"status":500,"latency_ms":800}
+{"status":200,"latency_ms":"NaN"}
+not-json
+[]
